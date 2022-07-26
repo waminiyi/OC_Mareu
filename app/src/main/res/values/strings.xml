@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">Mareu</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="timePicker">timePicker</string>
+    <string name="datePicker">datePicker</string>
+    <string name="add_title_placeholder">Ajouter un titre</string>
+    <string name="meeting_date_placeholder">Date de la réunion</string>
+    <string name="meeting_time_placeholder">Heure de la réunion</string>
+    <string name="meeting_room_placeholder">Salle de la réunion</string>
+    <string name="add_attendees_label">Ajouter des participants</string>
+    <string name="attendees_list_placeholder">Liste des participants</string>
+    <string name="create">Créer</string>
+    <string name="attendees_mail_placeholder">attendees@mail, attendees@mail, attendees@mail, attendees@mail</string>
+    <string name="item_topic_placeholder">Topic -</string>
+    <string name="item_time_placeholder">Time -</string>
+    <string name="item_room_placeholder">Room</string>
+
+
+</resources>

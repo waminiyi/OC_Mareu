@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="button_background" parent="android:Widget">
+        <item name="android:backgroundTint">#03A9F4</item>
+        <item name="cornerRadius"> 160dp </item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="TextViewStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/text_hint_color</item>
+        <item name="android:textColor">@color/text_view_color</item>
+        <item name="android:layout_marginStart">@dimen/text_margin_horizontal</item>
+        <item name="android:layout_marginLeft">@dimen/text_margin_horizontal</item>
+        <item name="android:layout_marginTop">@dimen/text_margin_top</item>
+        <item name="android:layout_marginEnd">@dimen/text_margin_horizontal</item>
+        <item name="android:layout_marginRight">@dimen/text_margin_horizontal</item>
+        <item name="android:drawablePadding">@dimen/drawable_padding_left</item>
+        <item name="android:textSize">@dimen/title_size</item>
+    </style>
+
+
+</resources>

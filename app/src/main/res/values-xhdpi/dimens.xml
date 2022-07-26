@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_margin_horizontal">24dp</dimen>
+    <dimen name="drawable_padding_left">12dp</dimen>
+    <dimen name="text_margin_top">20dp</dimen>
+    <dimen name="title_size">18sp</dimen>
+    <dimen name="subtitle_size">15sp</dimen>
+    <dimen name="recycler_view_image_margin_horizontal">12dp</dimen>
+    <dimen name="icon_width">24dp</dimen>
+    <dimen name="icon_height">24dp</dimen>
+    <dimen name="image_view_size">48dp</dimen>
+</resources>
