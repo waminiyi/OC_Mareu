@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -43,9 +44,7 @@ public class MeetingsListingActivity extends AppCompatActivity {
 
         mNewMeetingButton = findViewById(R.id.new_meeting_fab);
 
-
         this.configureOnClickRecyclerView();
-
 
         mNewMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,10 +60,34 @@ public class MeetingsListingActivity extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.filter_room);
+        return true;
+    }
 
+        @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String filterParameter;
+        String filterPlaceholder;
+        switch (item.getItemId()) {
+            case R.id.filter_date:
+                filterParameter= getResources().getString(R.string.date_filter_label);
+                filterPlaceholder=getString(R.string.date_filter_placeholder);
+                filterMeetings(item,filterParameter,filterPlaceholder);
+                Toast.makeText(this, "Meetings filtered by date", Toast.LENGTH_SHORT).show();
+                return true;
+
+            case R.id.filter_room:
+                filterParameter= getResources().getString(R.string.room_filter_label);
+                filterPlaceholder=getString(R.string.room_filter_placeholder);
+                filterMeetings(item,filterParameter,filterPlaceholder);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void filterMeetings(MenuItem searchItem, String parameter, String placeHolder) {
         SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint("Salle beta");
+        searchView.setQueryHint(placeHolder);
         searchView.setIconifiedByDefault(false);
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -75,44 +98,11 @@ public class MeetingsListingActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                adapter.filter(parameter, newText);
                 return false;
             }
         });
 
-        MenuItem dateItem = menu.findItem(R.id.filter_date);
-        dateItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-
-                return false;
-            }
-        });
-
-        return true;
-
-
-    }
-
-    //    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.filter_date:
-//                filterMeetings();
-//                Toast.makeText(this, "Meetings filtered by date", Toast.LENGTH_SHORT).show();
-//                return true;
-//
-//            case R.id.filter_room:
-//                filterMeetings();
-//
-//                Toast.makeText(this, "Meetings filtered by room", Toast.LENGTH_SHORT).show();
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
-
-    private void filterMeetings() {
     }
 
     private void configureOnClickRecyclerView() {
@@ -179,4 +169,5 @@ public class MeetingsListingActivity extends AppCompatActivity {
         }
         return colorIndex;
     }
+
 }

@@ -24,7 +24,6 @@ import android.widget.TextView;
 import com.waminiyi.mareu.R;
 import com.waminiyi.mareu.model.Meeting;
 import com.waminiyi.mareu.model.MeetingDatabase;
-import com.waminiyi.mareu.services.RoomAndEmployeeDatabase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -138,7 +137,6 @@ public class NewMeetingActivity extends AppCompatActivity {
             mMeetingTopicEditText.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
                 }
 
                 @Override
@@ -154,7 +152,6 @@ public class NewMeetingActivity extends AppCompatActivity {
                 }
             });
 
-
             mMeetingRoomTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -166,8 +163,6 @@ public class NewMeetingActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     showDialogSpinner(mail, mEmployeesMailList);
-
-
                 }
             });
 
@@ -186,7 +181,6 @@ public class NewMeetingActivity extends AppCompatActivity {
     public void showDialogSpinner(String target, List<String> dataSource) {
         // Initialize dialog
         mRoomDialog = new Dialog(NewMeetingActivity.this);
-
         // set custom dialog
         mRoomDialog.setContentView(R.layout.dialog_searchable_spinner);
 
@@ -241,11 +235,9 @@ public class NewMeetingActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (target) {
                     case room:
-                        // when item selected from list
-                        // set selected item on textView
+
                         mMeetingRoom = adapter.getItem(position);
                         mMeetingRoomTextView.setText(mMeetingRoom);
-                        // Dismiss dialog
                         mRoomDialog.dismiss();
                         break;
                     case mail:
@@ -267,8 +259,6 @@ public class NewMeetingActivity extends AppCompatActivity {
                         }
                         break;
                 }
-
-
             }
         });
     }

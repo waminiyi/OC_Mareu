@@ -8,14 +8,14 @@ import java.util.List;
 public class MeetingDatabase {
 
     private static MeetingDatabase INSTANCE;
-    private List<Meeting>  mMeetingList = new ArrayList<>();
+    private List<Meeting> mMeetingList = new ArrayList<>();
 
     public MeetingDatabase() {
-      Meeting meeting = new Meeting("Reunion 1","08h00", "Salle red", "Sujet 1", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
-        Meeting meeting1 = new Meeting("Reunion 2","09h15", "Salle maroon", "Sujet 2", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
-        Meeting meeting2 = new Meeting("Reunion 3","10h30", "Salle yellow", "Sujet 3", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
-        Meeting meeting3 = new Meeting("Reunion 4","11h45", "Salle lime", "Sujet 4", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
-meeting.setColorIndex(0);
+        Meeting meeting = new Meeting("29/07/2022", "08h00", "Salle red", "Sujet 1", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
+        Meeting meeting1 = new Meeting("28/04/2022", "09h15", "Salle maroon", "Sujet 2", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
+        Meeting meeting2 = new Meeting("27/05/2022", "10h30", "Salle yellow", "Sujet 3", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
+        Meeting meeting3 = new Meeting("26/06/2022", "11h45", "Salle lime", "Sujet 4", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
+        meeting.setColorIndex(0);
         meeting1.setColorIndex(1);
         meeting2.setColorIndex(2);
         meeting3.setColorIndex(3);
@@ -26,7 +26,7 @@ meeting.setColorIndex(0);
         mMeetingList.add(meeting3);
     }
 
-   public static MeetingDatabase getInstance() {
+    public static MeetingDatabase getInstance() {
         if (INSTANCE == null) {
             synchronized (MeetingDatabase.class) {
                 if (INSTANCE == null) {
@@ -37,18 +37,16 @@ meeting.setColorIndex(0);
         return INSTANCE;
     }
 
-
-
     public List<Meeting> getMeetingList() {
 
         return mMeetingList;
     }
 
-    public void deleteMeeting(Meeting meeting){
+    public void deleteMeeting(Meeting meeting) {
         mMeetingList.remove(meeting);
     }
 
-    public void addMeeting(Meeting meeting){
+    public void addMeeting(Meeting meeting) {
         mMeetingList.add(meeting);
     }
 }

@@ -35,6 +35,10 @@
     <string name="room8" >Salle blue</string>
     <string name="room9" >Salle navy</string>
     <string name="room10" >Salle fuchsia</string>
+    <string name="room_filter_label">roomFilter</string>
+    <string name="date_filter_label">dateFilter</string>
+    <string name="room_filter_placeholder">exemple: Salle beta</string>
+    <string name="date_filter_placeholder">jour/mois/année</string>
 
     <string-array name="rooms">
         <item >@string/room1</item>
