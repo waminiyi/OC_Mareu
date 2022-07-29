@@ -1,32 +1,31 @@
 package com.waminiyi.mareu.view;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.waminiyi.mareu.R;
 import com.waminiyi.mareu.model.Meeting;
 import com.waminiyi.mareu.model.MeetingDatabase;
-import com.waminiyi.mareu.services.RoomAndEmployeeDatabase;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
+public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingViewHolder> implements Filterable {
 
     private List<Meeting> mMeetingList;
+    private List<Meeting> mMeetingListCopy;
     Context mContext;
 
     public MeetingRecyclerViewAdapter(List<Meeting> meetingList) {
         this.mMeetingList = meetingList;
+        mMeetingListCopy = new ArrayList<>(meetingList);
     }
 
     @NonNull
@@ -40,14 +39,20 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
     public void onBindViewHolder(@NonNull MeetingViewHolder holder, int position) {
         if (mMeetingList != null && position < mMeetingList.size()) {
             Meeting currentMeeting = mMeetingList.get(position);
-            mContext = holder.iconImage.getContext();
-            int color= RoomAndEmployeeDatabase.getInstance().getRandomImage(currentMeeting.getMeetingRoom());
+          mContext = holder.iconImage.getContext();
+
+            int colorIndex =currentMeeting.getColorIndex();
+//            int meetingColor = RoomAndEmployeeDatabase.getInstance().getColorFromRoom(currentMeeting.getMeetingRoom());
 
             holder.roomNameTextView.setText(currentMeeting.getMeetingRoom());
             holder.timeTextView.setText(currentMeeting.getMeetingTime() + " - ");
             holder.topicTextView.setText(currentMeeting.getMeetingTopic() + " - ");
             holder.attendeesListTextView.setText(currentMeeting.getMeetingAttendees());
-            holder.iconImage.setBackgroundTintList(ColorStateList.valueOf(mContext.getResources().getColor(color)));
+
+//            holder.iconImage.setBackgroundColor(mContext.getResources().getColor(meetingColor));
+//            holder.iconImage.setBackgroundTintList(ColorStateList.valueOf(mContext.getResources().getColor(meetingColor) ));
+            holder.iconImage.setColorFilter(mContext.getResources().getIntArray(R.array.colors_array)[colorIndex]);
+
             holder.deleteButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -77,6 +82,40 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
     public Meeting getMeetingAt(int position) {
         return mMeetingList.get(position);
     }
+
+
+    @Override
+    public Filter getFilter() {
+        return meetingListFilter;
+    }
+
+    private Filter meetingListFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+
+            List<Meeting> filteredList = new ArrayList<>();
+            if (constraint == null || constraint.length() == 0) {
+                filteredList.addAll(mMeetingListCopy);
+            } else {
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Meeting meeting : mMeetingListCopy) {
+                    if (meeting.getMeetingRoom().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(meeting);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            setMeetingsList(new ArrayList<Meeting>((List) results.values));
+        }
+    };
 
 
 }

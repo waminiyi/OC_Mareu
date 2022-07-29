@@ -1,7 +1,7 @@
 package com.waminiyi.mareu.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +31,7 @@ public class MeetingsListingActivity extends AppCompatActivity {
     public static final int VIEW_MEETING_REQUEST = 2;
     public RecyclerView recyclerView;
     public MeetingRecyclerViewAdapter adapter;
+    private int gridColumnCount;
 
 
     @Override
@@ -36,14 +39,10 @@ public class MeetingsListingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetings_listing);
 
+        gridColumnCount = getResources().getInteger(R.integer.grid_column_count);
+
         mNewMeetingButton = findViewById(R.id.new_meeting_fab);
-        recyclerView = findViewById(R.id.recyclerview);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        List<Meeting> meetingList = mMeetingDatabase.getMeetingList();
-
-        adapter = new MeetingRecyclerViewAdapter(meetingList);
-        recyclerView.setAdapter(adapter);
 
         this.configureOnClickRecyclerView();
 
@@ -61,25 +60,70 @@ public class MeetingsListingActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.main_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.filter_room);
+
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint("Salle beta");
+        searchView.setIconifiedByDefault(false);
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        MenuItem dateItem = menu.findItem(R.id.filter_date);
+        dateItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                return false;
+            }
+        });
+
         return true;
+
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.filter:
-                filterMeetings();
-                Toast.makeText(this, "Meetings filtered", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+    //    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.filter_date:
+//                filterMeetings();
+//                Toast.makeText(this, "Meetings filtered by date", Toast.LENGTH_SHORT).show();
+//                return true;
+//
+//            case R.id.filter_room:
+//                filterMeetings();
+//
+//                Toast.makeText(this, "Meetings filtered by room", Toast.LENGTH_SHORT).show();
+//                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     private void filterMeetings() {
     }
 
     private void configureOnClickRecyclerView() {
+
+        recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, gridColumnCount));
+
+        List<Meeting> meetingList = mMeetingDatabase.getMeetingList();
+
+        adapter = new MeetingRecyclerViewAdapter(meetingList);
+        recyclerView.setAdapter(adapter);
         ItemClickSupport.addTo(recyclerView, R.layout.meeting_item)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
@@ -108,14 +152,31 @@ public class MeetingsListingActivity extends AppCompatActivity {
             String topic = data.getStringExtra(NewMeetingActivity.EXTRA_TOPIC);
             String room = data.getStringExtra(NewMeetingActivity.EXTRA_ROOM);
             String date = data.getStringExtra(NewMeetingActivity.EXTRA_DATE);
-            String time =data.getStringExtra(NewMeetingActivity.EXTRA_TIME);
+            String time = data.getStringExtra(NewMeetingActivity.EXTRA_TIME);
             String attendees = data.getStringExtra(NewMeetingActivity.EXTRA_MAIL);
+// penser à mettre la création du meeting dans l'activity new meeting, rendre mmeting parcelable
+            Meeting meeting = new Meeting(date, time, room, topic, attendees);
+            meeting.setColorIndex(getColorFromRoom(room));
 
-            Meeting meeting = new Meeting(date,time,room,topic,attendees);
             mMeetingDatabase.addMeeting(meeting);
             adapter.setMeetingsList(mMeetingDatabase.getMeetingList());
 
             Toast.makeText(this, "Nouvelle réunion programmée", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private int getColorFromRoom(String room) {
+
+        int[] colors = getResources().getIntArray(R.array.colors_array);
+        String[] rooms = getResources().getStringArray(R.array.rooms);
+        int colorIndex = R.color.red;
+
+        for (int i = 0; i < 10; i++) {
+            if (rooms[i].equals(room)) {
+                colorIndex = i;
+                break;
+            }
+        }
+        return colorIndex;
     }
 }

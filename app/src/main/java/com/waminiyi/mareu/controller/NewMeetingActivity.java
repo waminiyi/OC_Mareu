@@ -27,6 +27,7 @@ import com.waminiyi.mareu.model.MeetingDatabase;
 import com.waminiyi.mareu.services.RoomAndEmployeeDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class NewMeetingActivity extends AppCompatActivity {
@@ -36,6 +37,7 @@ public class NewMeetingActivity extends AppCompatActivity {
     private TextView mMeetingDateTextView;
     private TextView mMeetingRoomTextView;
     private TextView mMeetingAttendeesAddingTextView;
+    private TextView mMeetingAttendeesShowingLabel;
     private TextView mMeetingAttendeesShowingTextView;
     private Button mMeetingSavingButton;
 
@@ -77,6 +79,7 @@ public class NewMeetingActivity extends AppCompatActivity {
         mMeetingRoomTextView = findViewById(R.id.new_meeting_room_textview);
         mMeetingAttendeesAddingTextView = findViewById(R.id.new_meeting_attendees_adding_textview);
         mMeetingAttendeesShowingTextView = findViewById(R.id.new_meeting_attendees_showing_textview);
+        mMeetingAttendeesShowingLabel = findViewById(R.id.new_meeting_attendees_showing_label);
         mMeetingSavingButton = findViewById(R.id.new_meeting_save_button);
         mMeetingDateTextView = findViewById(R.id.new_meeting_date_textview);
 
@@ -98,14 +101,16 @@ public class NewMeetingActivity extends AppCompatActivity {
             mMeetingRoomTextView.setText(intent.getStringExtra(EXTRA_ROOM));
             mMeetingDateTextView.setText(intent.getStringExtra(EXTRA_DATE));
             mMeetingTimeTextView.setText(intent.getStringExtra(EXTRA_TIME));
+            mMeetingAttendeesShowingLabel.setVisibility(View.VISIBLE);
+            mMeetingAttendeesShowingLabel.setEnabled(false);
             mMeetingAttendeesShowingTextView.setEnabled(false);
-            mMeetingAttendeesShowingTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_group, 0, 0, 0);
             mMeetingAttendeesShowingTextView.setText(intent.getStringExtra(EXTRA_MAIL));
-            getSupportActionBar().setTitle("Détails de la réunion");
+            getSupportActionBar().setTitle(R.string.meeting_details_label);
 
 
         } else {
-            getSupportActionBar().setTitle("Nouvelle réunion");
+            getSupportActionBar().setTitle(R.string.new_meeting_label);
+            mMeetingAttendeesShowingLabel.setVisibility(View.GONE);
 
             mAttendeesMailList = new ArrayList<>();
             if (mAttendeesMailList.size() == 0) {
@@ -126,8 +131,8 @@ public class NewMeetingActivity extends AppCompatActivity {
                 }
             });
 
-            mMeetingRoomsList = RoomAndEmployeeDatabase.getInstance().getRoomList();
-            mEmployeesMailList = RoomAndEmployeeDatabase.getInstance().getEmployeesMailList();
+            mMeetingRoomsList = Arrays.asList(getResources().getStringArray(R.array.rooms));
+            mEmployeesMailList = Arrays.asList(getResources().getStringArray(R.array.random_mails));
 
 
             mMeetingTopicEditText.addTextChangedListener(new TextWatcher() {
@@ -185,9 +190,6 @@ public class NewMeetingActivity extends AppCompatActivity {
         // set custom dialog
         mRoomDialog.setContentView(R.layout.dialog_searchable_spinner);
 
-        // set custom height and width
-        mRoomDialog.getWindow().setLayout(650, 800);
-
         // set transparent background
         mRoomDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
@@ -201,13 +203,13 @@ public class NewMeetingActivity extends AppCompatActivity {
 
         switch (target) {
             case room:
-                textView.setText("Rechercher une salle");
-                researchEditText.setHint("exemple: salle 1");
+                textView.setText(R.string.find_room_label);
+                researchEditText.setHint(R.string.room_example_placeholder);
                 dataSource = mMeetingRoomsList;
                 break;
             case mail:
-                textView.setText("Rechercher un collaborateur");
-                researchEditText.setHint("exemple@lamzone.com");
+                textView.setText(R.string.find_attendee_label);
+                researchEditText.setHint(R.string.mail_example_placeholder);
                 dataSource = mEmployeesMailList;
                 break;
         }
@@ -248,19 +250,19 @@ public class NewMeetingActivity extends AppCompatActivity {
                         break;
                     case mail:
                         String newMail = adapter.getItem(position);
-                        String previousText;
                         String separator = " , ";
                         if (!mAttendeesMailList.contains(newMail)) {
                             mAttendeesMailList.add(newMail);
 
                             if (mAttendeesMailList.size() >= 2) {
 
-                                mMeetingAttendees = mMeetingAttendees+ separator + newMail;
+                                mMeetingAttendees = mMeetingAttendees + separator + newMail;
                                 mMeetingAttendeesShowingTextView.setText(mMeetingAttendees);
                             } else {
                                 mMeetingAttendees = newMail;
                                 mMeetingAttendeesShowingTextView.setText(mMeetingAttendees);
                             }
+                            mMeetingAttendeesShowingLabel.setVisibility(View.VISIBLE);
                             mMeetingAttendeesShowingTextView.setVisibility(View.VISIBLE);
                         }
                         break;
@@ -303,10 +305,11 @@ public class NewMeetingActivity extends AppCompatActivity {
 
         String topic = mMeetingTopicEditText.getText().toString();
         String room = mMeetingRoomTextView.getText().toString();
+        String date = mMeetingDateTextView.getText().toString();
         String time = mMeetingTimeTextView.getText().toString();
         String attendees = mMeetingAttendeesShowingTextView.getText().toString();
 
-        if (!isTextValid(topic) || !isTextValid(room) || !isTextValid(time) || !isTextValid(attendees)) {
+        if (!isTextValid(topic) || !isTextValid(room) || !isTextValid(date) || !isTextValid(time) || !isTextValid(attendees)) {
 
             if (!isTextValid(topic)) {
                 mMeetingTopicEditText.setError("Veuillez donner un titre à la réunion");
@@ -316,6 +319,9 @@ public class NewMeetingActivity extends AppCompatActivity {
                 mMeetingRoomTextView.setError("Veuillez choisir une salle");
             }
 
+            if (!isTextValid(date)) {
+                mMeetingDateTextView.setError("Veuillez définir la date de la réunion");
+            }
             if (!isTextValid(time)) {
                 mMeetingTimeTextView.setError("Veuillez définir l'heure de la réunion");
             }

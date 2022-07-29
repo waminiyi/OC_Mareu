@@ -7,6 +7,7 @@ public class Meeting {
     private String mMeetingRoom;
     private String mMeetingTopic;
     private String mMeetingAttendees;
+    private int mColorIndex;
 
     public Meeting(String meetingDate, String meetingTime, String meetingRoom, String meetingTopic, String meetingAttendees) {
         mMeetingDate=meetingDate;
@@ -20,39 +21,27 @@ public class Meeting {
         return mMeetingTime;
     }
 
-    public void setMeetingTime(String meetingTime) {
-        mMeetingTime = meetingTime;
-    }
-
     public String getMeetingRoom() {
         return mMeetingRoom;
-    }
-
-    public void setMeetingRoom(String meetingRoom) {
-        mMeetingRoom = meetingRoom;
     }
 
     public String getMeetingTopic() {
         return mMeetingTopic;
     }
 
-    public void setMeetingTopic(String meetingTopic) {
-        mMeetingTopic = meetingTopic;
-    }
-
     public String getMeetingAttendees() {
         return mMeetingAttendees;
-    }
-
-    public void setMeetingAttendees(String meetingAttendees) {
-        mMeetingAttendees = meetingAttendees;
     }
 
     public String getMeetingDate() {
         return mMeetingDate;
     }
 
-    public void setMeetingDate(String meetingDate) {
-        mMeetingDate = meetingDate;
+    public int getColorIndex() {
+        return mColorIndex;
+    }
+
+    public void setColorIndex(int colorIndex) {
+        mColorIndex = colorIndex;
     }
 }

@@ -2,14 +2,19 @@
 <resources>
     <style name="button_background" parent="android:Widget">
         <item name="android:backgroundTint">#03A9F4</item>
-        <item name="cornerRadius"> 160dp </item>
+        <item name="cornerRadius"> 12dip </item>
         <item name="android:textStyle">bold</item>
     </style>
 
-
+    <style name="ActionButtonOverflow" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_filter</item>
+        <item name="android:background">?android:attr/actionBarItemBackground</item>
+        <item name="android:contentDescription">"Filter"</item>
+    </style>
     <style name="TextViewStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:textColorHint">@color/text_hint_color</item>
         <item name="android:textColor">@color/text_view_color</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:layout_marginStart">@dimen/text_margin_horizontal</item>
         <item name="android:layout_marginLeft">@dimen/text_margin_horizontal</item>
         <item name="android:layout_marginTop">@dimen/text_margin_top</item>
