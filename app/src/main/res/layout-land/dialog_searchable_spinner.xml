@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_box_width"
+    android:layout_height="@dimen/dialog_box_height"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="16dp"
+    android:padding="@dimen/layout_margin_top"
+    android:layout_gravity="center"
+    android:gravity="center"
     android:background="@android:color/white"
+
+
     >
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Rechercher une salle"
-        android:textSize="20sp"
+        android:text="@string/find_room_label"
+        android:textSize="@dimen/title_size"
         android:id="@+id/research_label_textview"
         android:textStyle="bold"
         />
@@ -22,11 +26,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/edit_text"
-        android:hint="exemple: salle 1"
-        android:padding="12dp"
+        android:hint="@string/room_example_placeholder"
+        android:padding="@dimen/drawable_padding_left"
         android:singleLine="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:textSize="@dimen/subtitle_size"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_marginBottom="@dimen/fab_margin"
         android:background="@android:drawable/editbox_background"
         />
 
@@ -34,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/list_view"
+        android:textSize="@dimen/title_size"
         />
 
 </LinearLayout>

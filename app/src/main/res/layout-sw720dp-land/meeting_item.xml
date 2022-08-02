@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="@dimen/meeting_item_margin_top"
+    android:layout_marginBottom="@dimen/meeting_item_margin_bottom">
 
     <ImageView
         android:id="@+id/item_list_avatar"
@@ -20,7 +21,7 @@
 
     <LinearLayout
         android:id="@+id/details_text_layout"
-        android:layout_width="0dp"
+        android:layout_width="0dip"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/recycler_view_image_margin_horizontal"
         android:orientation="vertical"
@@ -32,7 +33,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="@dimen/fab_margin"
             android:orientation="horizontal">
 
             <TextView
@@ -40,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/item_topic_placeholder"
                 android:textSize="@dimen/title_size"
                 android:textStyle="bold" />
@@ -50,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/item_time_placeholder"
                 android:textSize="@dimen/title_size"
                 android:textStyle="bold" />
@@ -60,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/item_room_placeholder"
                 android:textSize="@dimen/title_size"
                 android:textStyle="bold" />
@@ -71,10 +72,7 @@
             android:id="@+id/item_attendees_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
             android:ellipsize="end"
-            android:lines="1"
-            android:maxLines="1"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:text="@string/attendees_mail_placeholder"

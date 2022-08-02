@@ -1,27 +1,34 @@
 package com.waminiyi.mareu.controller;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.DialogFragment;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.waminiyi.mareu.R;
+import com.waminiyi.mareu.databinding.ActivityNewMeetingBinding;
 import com.waminiyi.mareu.model.Meeting;
 import com.waminiyi.mareu.model.MeetingDatabase;
 
@@ -29,152 +36,137 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class NewMeetingActivity extends AppCompatActivity {
-
-    private EditText mMeetingTopicEditText;
-    private TextView mMeetingTimeTextView;
-    private TextView mMeetingDateTextView;
-    private TextView mMeetingRoomTextView;
-    private TextView mMeetingAttendeesAddingTextView;
-    private TextView mMeetingAttendeesShowingLabel;
-    private TextView mMeetingAttendeesShowingTextView;
-    private Button mMeetingSavingButton;
+public class NewMeetingActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Dialog mRoomDialog;
-
-    public static final String EXTRA_TIME = "com.waminiyi.mareu.EXTRA_TIME";
-    public static final String EXTRA_TOPIC = "com.waminiyi.mareu.EXTRA_TOPIC";
-    public static final String EXTRA_ROOM = "com.waminiyi.mareu.EXTRA_ROOM";
-    public static final String EXTRA_MAIL = "com.waminiyi.mareu.EXTRA_MAIL";
-    public static final String EXTRA_DATE = "com.waminiyi.mareu.EXTRA_DATE";
-
-
+    public static final String EXTRA_MEETING = "com.waminiyi.mareu.EXTRA_MEETING";
     private List<String> mMeetingRoomsList;
     private List<String> mEmployeesMailList;
-
     private final String room = "Room";
     private final String mail = "Mail";
-
-    private String mMeetingTime;
-    private String mMeetingRoom;
-    private String mMeetingTopic;
-    private String mMeetingDate;
-    private String mMeetingAttendees;
-    private List<String> mAttendeesMailList;
+    private String mMeetingTime = "";
+    private String mMeetingRoom = "";
+    private String mMeetingTopic = "";
+    private String mMeetingDate = "";
+    private List<String> mAttendeesMailList = new ArrayList<>();
     private MeetingDatabase mMeetingDatabase = MeetingDatabase.getInstance();
-
+    private ActivityNewMeetingBinding binding;
+    private Meeting mMeeting;
+    private ArrayAdapter<String> mListAdapter;
+    private int mImageVisibility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_meeting);
+
+        binding = ActivityNewMeetingBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
 
-        mMeetingTimeTextView = findViewById(R.id.new_meeting_time_textview);
-        mMeetingTopicEditText = findViewById(R.id.new_meeting_topic_edittext);
-        mMeetingRoomTextView = findViewById(R.id.new_meeting_room_textview);
-        mMeetingAttendeesAddingTextView = findViewById(R.id.new_meeting_attendees_adding_textview);
-        mMeetingAttendeesShowingTextView = findViewById(R.id.new_meeting_attendees_showing_textview);
-        mMeetingAttendeesShowingLabel = findViewById(R.id.new_meeting_attendees_showing_label);
-        mMeetingSavingButton = findViewById(R.id.new_meeting_save_button);
-        mMeetingDateTextView = findViewById(R.id.new_meeting_date_textview);
-
+        mImageVisibility = getResources().getInteger(R.integer.grid_column_count);
         Intent intent = getIntent();
 
-        if (intent.hasExtra(EXTRA_TIME)) {
-            mMeetingSavingButton.setVisibility(View.GONE);
-            mMeetingTopicEditText.setEnabled(false);
-            mMeetingTopicEditText.setFocusable(false);
-            mMeetingTopicEditText.setBackground(null);
-            mMeetingRoomTextView.setEnabled(false);
-            mMeetingDateTextView.setEnabled(false);
-            mMeetingTimeTextView.setEnabled(false);
-            mMeetingAttendeesAddingTextView.setVisibility(View.GONE);
-            mMeetingTopicEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        if (intent.hasExtra(EXTRA_MEETING)) {
+            mMeeting = intent.getParcelableExtra(EXTRA_MEETING);
 
-            mMeetingTopicEditText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_topic, 0, 0, 0);
-            mMeetingTopicEditText.setText(intent.getStringExtra(EXTRA_TOPIC));
-            mMeetingRoomTextView.setText(intent.getStringExtra(EXTRA_ROOM));
-            mMeetingDateTextView.setText(intent.getStringExtra(EXTRA_DATE));
-            mMeetingTimeTextView.setText(intent.getStringExtra(EXTRA_TIME));
-            mMeetingAttendeesShowingLabel.setVisibility(View.VISIBLE);
-            mMeetingAttendeesShowingLabel.setEnabled(false);
-            mMeetingAttendeesShowingTextView.setEnabled(false);
-            mMeetingAttendeesShowingTextView.setText(intent.getStringExtra(EXTRA_MAIL));
-            getSupportActionBar().setTitle(R.string.meeting_details_label);
-
+            loadMeetingDetails();
 
         } else {
             getSupportActionBar().setTitle(R.string.new_meeting_label);
-            mMeetingAttendeesShowingLabel.setVisibility(View.GONE);
 
-            mAttendeesMailList = new ArrayList<>();
-            if (mAttendeesMailList.size() == 0) {
-                mMeetingAttendeesShowingTextView.setVisibility(View.GONE);
+            mListAdapter = new ArrayAdapter<>(this, R.layout.listview_item, mAttendeesMailList);
+            binding.attendeesMailListview.setAdapter(mListAdapter);
+
+            if (binding.newMeetingImageView != null) {
+                binding.newMeetingImageView.setVisibility(View.GONE);
             }
 
-            mMeetingDateTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showDatePickerDialog();
-                }
-            });
-
-            mMeetingTimeTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showTimePickerDialog();
-                }
-            });
+            binding.newMeetingDateTextview.setOnClickListener(this);
+            binding.newMeetingTimeTextview.setOnClickListener(this);
+            binding.newMeetingRoomTextview.setOnClickListener(this);
+            binding.newMeetingAttendeesAddingTextview.setOnClickListener(this);
+            binding.newMeetingSaveButton.setOnClickListener(this);
 
             mMeetingRoomsList = Arrays.asList(getResources().getStringArray(R.array.rooms));
             mEmployeesMailList = Arrays.asList(getResources().getStringArray(R.array.random_mails));
 
-
-            mMeetingTopicEditText.addTextChangedListener(new TextWatcher() {
+            binding.newMeetingTopicEdittext.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    mMeetingTopicEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    binding.newMeetingTopicEdittext.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    mMeetingTopicEditText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+                    binding.newMeetingTopicEdittext.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
-                    mMeetingTopic = mMeetingTopicEditText.getText().toString();
-                }
-            });
-
-            mMeetingRoomTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showDialogSpinner(room, mMeetingRoomsList);
-                }
-            });
-
-            mMeetingAttendeesAddingTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showDialogSpinner(mail, mEmployeesMailList);
-                }
-            });
-
-            mMeetingSavingButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    saveMeeting();
+                    mMeetingTopic = binding.newMeetingTopicEdittext.getText().toString();
                 }
             });
 
         }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == binding.newMeetingDateTextview) {
+            showDatePickerDialog();
+        } else if (v == binding.newMeetingTimeTextview) {
+            showTimePickerDialog();
+        } else if (v == binding.newMeetingRoomTextview) {
+            showDialogSpinner(room, mMeetingRoomsList);
+        } else if (v == binding.newMeetingAttendeesAddingTextview) {
+            showDialogSpinner(mail, mEmployeesMailList);
+        } else if (v == binding.newMeetingSaveButton) {
+            saveMeeting();
+        } else {
+            throw new IllegalStateException("Unknown clicked view : " + v);
+        }
+
+    }
+
+    private void loadMeetingDetails() {
+        getSupportActionBar().setTitle(R.string.meeting_details_label);
+
+        binding.newMeetingSaveButton.setVisibility(View.GONE);
+        binding.newMeetingTopicEdittext.setEnabled(false);
+        binding.newMeetingTopicEdittext.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_topic, 0, 0, 0);
+
+        binding.newMeetingTopicEdittext.setBackground(null);
+
+        if (binding.newMeetingImageView != null) {
+            binding.newMeetingImageView.setVisibility(View.VISIBLE);
+        }
+
+        binding.newMeetingAttendeesAddingTextview.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_group, 0, 0, 0);
+
+        binding.newMeetingAttendeesAddingTextview.setText(getResources().getString(R.string.attendees_list_placeholder));
+
+        binding.newMeetingTopicEdittext.setText(mMeeting.getMeetingTopic());
+        binding.newMeetingRoomTextview.setText(mMeeting.getMeetingRoom());
+        binding.newMeetingDateTextview.setText(mMeeting.getMeetingDate());
+
+        binding.newMeetingTimeTextview.setText(mMeeting.getMeetingTime());
+
+        if (binding.newMeetingImageView != null) {
+            Glide.with(this)
+                    .load(getResources().getStringArray(R.array.images_array)[mMeeting.getColorIndex()]).apply(RequestOptions.centerCropTransform())
+                    .into(binding.newMeetingImageView);
+        }
+
+        mAttendeesMailList = mMeeting.getMeetingAttendees();
+        mListAdapter = new ArrayAdapter<>(this, R.layout.listview_item, mAttendeesMailList);
+        binding.attendeesMailListview.setAdapter(mListAdapter);
+        mListAdapter.notifyDataSetChanged();
 
     }
 
@@ -184,13 +176,10 @@ public class NewMeetingActivity extends AppCompatActivity {
         // set custom dialog
         mRoomDialog.setContentView(R.layout.dialog_searchable_spinner);
 
-        // set transparent background
         mRoomDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
-        // show dialog
         mRoomDialog.show();
 
-        // Initialize and assign variable
         TextView textView = mRoomDialog.findViewById(R.id.research_label_textview);
         EditText researchEditText = mRoomDialog.findViewById(R.id.edit_text);
         ListView listView = mRoomDialog.findViewById(R.id.list_view);
@@ -209,14 +198,13 @@ public class NewMeetingActivity extends AppCompatActivity {
         }
 
         // Initialize array adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(NewMeetingActivity.this, android.R.layout.simple_list_item_1, dataSource);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(NewMeetingActivity.this, R.layout.listview_item, dataSource);
 
         // set adapter
         listView.setAdapter(adapter);
         researchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -226,7 +214,6 @@ public class NewMeetingActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
 
@@ -235,33 +222,22 @@ public class NewMeetingActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (target) {
                     case room:
-
                         mMeetingRoom = adapter.getItem(position);
-                        mMeetingRoomTextView.setText(mMeetingRoom);
+                        binding.newMeetingRoomTextview.setText(mMeetingRoom);
                         mRoomDialog.dismiss();
                         break;
                     case mail:
                         String newMail = adapter.getItem(position);
-                        String separator = " , ";
                         if (!mAttendeesMailList.contains(newMail)) {
                             mAttendeesMailList.add(newMail);
-
-                            if (mAttendeesMailList.size() >= 2) {
-
-                                mMeetingAttendees = mMeetingAttendees + separator + newMail;
-                                mMeetingAttendeesShowingTextView.setText(mMeetingAttendees);
-                            } else {
-                                mMeetingAttendees = newMail;
-                                mMeetingAttendeesShowingTextView.setText(mMeetingAttendees);
-                            }
-                            mMeetingAttendeesShowingLabel.setVisibility(View.VISIBLE);
-                            mMeetingAttendeesShowingTextView.setVisibility(View.VISIBLE);
                         }
                         break;
                 }
+                mListAdapter.notifyDataSetChanged();
             }
         });
     }
+
 
     public void showTimePickerDialog() {
         DialogFragment newTimePickerFragment = new TimePickerFragment();
@@ -278,7 +254,7 @@ public class NewMeetingActivity extends AppCompatActivity {
         @SuppressLint("DefaultLocale") String hour_string = String.format("%02d", hour);
         @SuppressLint("DefaultLocale") String minute_string = String.format("%02d", minute);
         mMeetingTime = (hour_string + "h" + minute_string);
-        mMeetingTimeTextView.setText(mMeetingTime);
+        binding.newMeetingTimeTextview.setText(mMeetingTime);
 
     }
 
@@ -287,47 +263,21 @@ public class NewMeetingActivity extends AppCompatActivity {
         String day_string = Integer.toString(day);
         String year_string = Integer.toString(year);
         mMeetingDate = (day_string + "/" + month_string + "/" + year_string);
-        mMeetingDateTextView.setText(mMeetingDate);
+        binding.newMeetingDateTextview.setText(mMeetingDate);
 
     }
 
     private void saveMeeting() {
 
-        String topic = mMeetingTopicEditText.getText().toString();
-        String room = mMeetingRoomTextView.getText().toString();
-        String date = mMeetingDateTextView.getText().toString();
-        String time = mMeetingTimeTextView.getText().toString();
-        String attendees = mMeetingAttendeesShowingTextView.getText().toString();
-
-        if (!isTextValid(topic) || !isTextValid(room) || !isTextValid(date) || !isTextValid(time) || !isTextValid(attendees)) {
-
-            if (!isTextValid(topic)) {
-                mMeetingTopicEditText.setError("Veuillez donner un titre à la réunion");
-            }
-
-            if (!isTextValid(room)) {
-                mMeetingRoomTextView.setError("Veuillez choisir une salle");
-            }
-
-            if (!isTextValid(date)) {
-                mMeetingDateTextView.setError("Veuillez définir la date de la réunion");
-            }
-            if (!isTextValid(time)) {
-                mMeetingTimeTextView.setError("Veuillez définir l'heure de la réunion");
-            }
-
-            if (!isTextValid(attendees)) {
-                mMeetingAttendeesAddingTextView.setError("Veuillez ajouter des participants");
-            }
+        if (!isTextValid(mMeetingTopic) || !isTextValid(mMeetingRoom) || !isTextValid(mMeetingDate) || !isTextValid(mMeetingTime) || mAttendeesMailList.size() == 0) {
+            Toast.makeText(this, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Intent data = new Intent();
-        data.putExtra(EXTRA_TOPIC, mMeetingTopic);
-        data.putExtra(EXTRA_ROOM, mMeetingRoom);
-        data.putExtra(EXTRA_TIME, mMeetingTime);
-        data.putExtra(EXTRA_MAIL, mMeetingAttendees);
-        data.putExtra(EXTRA_DATE, mMeetingDate);
+
+        mMeeting = new Meeting(mMeetingDate, mMeetingTime, mMeetingRoom, mMeetingTopic, mAttendeesMailList);
+        data.putExtra(EXTRA_MEETING, mMeeting);
 
         setResult(RESULT_OK, data);
         finish();
@@ -336,5 +286,4 @@ public class NewMeetingActivity extends AppCompatActivity {
     private boolean isTextValid(String text) {
         return !text.trim().isEmpty() && text.length() >= 2;
     }
-
 }

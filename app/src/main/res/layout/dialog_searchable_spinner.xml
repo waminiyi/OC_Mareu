@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/edit_text"
         android:hint="@string/room_example_placeholder"
-        android:padding="@dimen/drawable_padding_left"
+        android:padding="@dimen/dialog_edittext_padding"
         android:singleLine="true"
         android:textSize="@dimen/subtitle_size"
         android:layout_marginTop="@dimen/fab_margin"

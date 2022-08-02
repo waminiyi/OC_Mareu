@@ -44,7 +44,7 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
             holder.roomNameTextView.setText(currentMeeting.getMeetingRoom());
             holder.timeTextView.setText(currentMeeting.getMeetingTime() + " - ");
             holder.topicTextView.setText(currentMeeting.getMeetingTopic() + " - ");
-            holder.attendeesListTextView.setText(currentMeeting.getMeetingAttendees());
+            holder.attendeesListTextView.setText(String.join(", ", currentMeeting.getMeetingAttendees()));
 
             holder.iconImage.setColorFilter(mContext.getResources().getIntArray(R.array.colors_array)[colorIndex]);
 
@@ -96,7 +96,6 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
                     }
                 }
             }
-
         }
         setMeetingsList(filteredList);
     }

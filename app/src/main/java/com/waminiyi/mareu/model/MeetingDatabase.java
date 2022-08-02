@@ -1,8 +1,7 @@
 package com.waminiyi.mareu.model;
 
-import com.waminiyi.mareu.R;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MeetingDatabase {
@@ -11,10 +10,10 @@ public class MeetingDatabase {
     private List<Meeting> mMeetingList = new ArrayList<>();
 
     public MeetingDatabase() {
-        Meeting meeting = new Meeting("29/07/2022", "08h00", "Salle red", "Sujet 1", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
-        Meeting meeting1 = new Meeting("28/04/2022", "09h15", "Salle maroon", "Sujet 2", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
-        Meeting meeting2 = new Meeting("27/05/2022", "10h30", "Salle yellow", "Sujet 3", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
-        Meeting meeting3 = new Meeting("26/06/2022", "11h45", "Salle lime", "Sujet 4", "abdel@lamzone.com, albertine@lamzone.com, ana-maria@lamzone.com");
+        Meeting meeting = new Meeting("29/07/2022", "08h00", "Salle red", "Réunion A", Arrays.asList("abdel@lamzone.com", "albertine@lamzone.com", "ana-maria@lamzone.com"));
+        Meeting meeting1 = new Meeting("28/04/2022", "09h15", "Salle maroon", "Réunion B", Arrays.asList("abdel@lamzone.com", "albertine@lamzone.com", "ana-maria@lamzone.com"));
+        Meeting meeting2 = new Meeting("27/05/2022", "10h30", "Salle yellow", "Réunion C", Arrays.asList("abdel@lamzone.com","albertine@lamzone.com", "ana-maria@lamzone.com"));
+        Meeting meeting3 = new Meeting("26/06/2022", "11h45", "Salle lime", "Réunion D", Arrays.asList("abdel@lamzone.com", "albertine@lamzone.com", "ana-maria@lamzone.com"));
         meeting.setColorIndex(0);
         meeting1.setColorIndex(1);
         meeting2.setColorIndex(2);

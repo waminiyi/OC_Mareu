@@ -19,11 +19,11 @@
     <color name="navy">#000080</color>
     <color name="fuchsia">#FF00FF</color>
 
-    <color name="drawable_start_color">#2196F3</color>
+    <color name="drawable_start_color">#274861</color>
 
-    <color name="enabled_text_view_color">#274861</color>
-    <color name="disabled_text_view_color">#6E6D6D</color>
-    <color name="text_hint_color">#BE7E7E7E</color>
+    <color name="enabled_text_view_color">#494949</color>
+    <color name="disabled_text_view_color">#494949</color>
+    <color name="text_hint_color">#BE8A8A8A</color>
     <color name="boxstroke_color">#777474</color>
 
 

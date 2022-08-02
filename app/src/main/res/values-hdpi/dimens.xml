@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin_horizontal">24dip</dimen>
-    <dimen name="drawable_padding_left">12dip</dimen>
+    <dimen name="drawable_padding_left">20dip</dimen>
     <dimen name="text_margin_top">20dip</dimen>
     <dimen name="title_size">16sp</dimen>
     <dimen name="subtitle_size">13sp</dimen>
@@ -16,4 +16,11 @@
     <dimen name="meeting_item_margin_top">16dip</dimen>
     <dimen name="meeting_item_margin_bottom">8dip</dimen>
     <dimen name="button_padding">12dip</dimen>
+    <dimen name="meeting_imageview_height">120dip</dimen>
+    <dimen name="meeting_details_listview_height">120dip</dimen>
+    <dimen name="meeting_details_listview_margin_start">60dip</dimen>
+    <dimen name="listview_item_padding">6dip</dimen>
+    <dimen name="dialog_edittext_padding">12dip</dimen>
+    <dimen name="listview_width_land">600dip</dimen>
+    <dimen name="attendees_textview_margin_land">112dip</dimen>
 </resources>

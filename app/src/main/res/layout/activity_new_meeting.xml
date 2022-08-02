@@ -7,26 +7,34 @@
     android:layout_marginBottom="@dimen/text_margin_top"
     tools:context=".controller.NewMeetingActivity">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="wrap_content">
 
-        >
+        <ImageView
+            android:id="@+id/new_meeting_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/meeting_imageview_height"
+            android:layout_gravity="top"
+            android:layout_marginBottom="12dip"
+            android:src="@drawable/ic_circle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
             android:id="@+id/new_meeting_topic_edittext"
             style="@style/TextViewStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_topic"
+            android:drawableStart="@drawable/ic_title"
             android:hint="@string/add_title_placeholder"
             android:inputType="textMultiLine"
             android:textSize="@dimen/title_size"
             app:drawableTint="@color/drawable_start_color"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/new_meeting_image_view" />
 
         <TextView
             android:id="@+id/new_meeting_date_textview"
@@ -80,30 +88,18 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/new_meeting_room_textview" />
 
-        <TextView
-            android:id="@+id/new_meeting_attendees_showing_label"
-            style="@style/TextViewStyle"
+        <ListView
+            android:id="@+id/attendees_mail_listview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/attendees_list_placeholder"
-            app:drawableTint="@color/drawable_start_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:drawableLeft="@drawable/ic_group"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_meeting_attendees_adding_textview" />
-
-        <TextView
-            android:id="@+id/new_meeting_attendees_showing_textview"
-            style="@style/TextViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="top"
-            android:hint="@string/attendees_list_placeholder"
-            app:drawableTint="@color/drawable_start_color"
+            android:layout_height="@dimen/meeting_details_listview_height"
+            android:layout_marginStart="@dimen/meeting_details_listview_margin_start"
+            android:layout_marginEnd="@dimen/text_margin_horizontal"
+            android:background="@null"
+            android:divider="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_meeting_attendees_showing_label" />
-
+            app:layout_constraintTop_toBottomOf="@+id/new_meeting_attendees_adding_textview"
+            tools:ignore="NestedScrolling" />
 
         <Button
             android:id="@+id/new_meeting_save_button"
@@ -117,7 +113,7 @@
             android:textSize="@dimen/title_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/new_meeting_attendees_showing_textview"
+            app:layout_constraintTop_toBottomOf="@id/attendees_mail_listview"
             app:tint="@color/white" />
 
 

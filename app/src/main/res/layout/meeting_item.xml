@@ -41,7 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/item_topic_placeholder"
                 android:textSize="@dimen/title_size"
                 android:textStyle="bold" />
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/item_time_placeholder"
                 android:textSize="@dimen/title_size"
                 android:textStyle="bold" />
@@ -61,7 +61,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="1"
+                android:singleLine="true"
                 android:text="@string/item_room_placeholder"
                 android:textSize="@dimen/title_size"
                 android:textStyle="bold" />
@@ -72,10 +72,7 @@
             android:id="@+id/item_attendees_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/fab_margin"
             android:ellipsize="end"
-            android:lines="1"
-            android:maxLines="1"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:text="@string/attendees_mail_placeholder"
