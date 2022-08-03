@@ -19,10 +19,11 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
 
     private List<Meeting> mMeetingList;
     private List<Meeting> mMeetingListCopy;
-    Context mContext;
+    private Context mContext;
 
-    public MeetingRecyclerViewAdapter(List<Meeting> meetingList) {
+    public MeetingRecyclerViewAdapter(Context context, List<Meeting> meetingList) {
         this.mMeetingList = meetingList;
+        this.mContext=context;
         mMeetingListCopy = new ArrayList<>(meetingList);
     }
 
@@ -37,7 +38,6 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
     public void onBindViewHolder(@NonNull MeetingViewHolder holder, int position) {
         if (mMeetingList != null && position < mMeetingList.size()) {
             Meeting currentMeeting = mMeetingList.get(position);
-            mContext = holder.iconImage.getContext();
 
             int colorIndex = currentMeeting.getColorIndex();
 

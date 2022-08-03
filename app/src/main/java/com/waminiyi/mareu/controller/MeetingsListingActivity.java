@@ -114,7 +114,7 @@ public class MeetingsListingActivity extends AppCompatActivity {
 
         List<Meeting> meetingList = mMeetingDatabase.getMeetingList();
 
-        adapter = new MeetingRecyclerViewAdapter(meetingList);
+        adapter = new MeetingRecyclerViewAdapter(this, meetingList);
         binding.recyclerview.setAdapter(adapter);
         ItemClickSupport.addTo(binding.recyclerview, R.layout.meeting_item)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {

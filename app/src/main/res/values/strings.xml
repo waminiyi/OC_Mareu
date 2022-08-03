@@ -24,86 +24,86 @@
     <string name="filter_by_room">Filtrer par lieu</string>
 
 
-    <string name="room1" >Salle red</string>
-    <string name="room2" >Salle maroon</string>
-    <string name="room3" >Salle yellow</string>
-    <string name="room4" >Salle lime</string>
-    <string name="room5" >Salle green</string>
-    <string name="room6" >Salle aqua</string>
-    <string name="room7" >Salle teal</string>
-    <string name="room8" >Salle blue</string>
-    <string name="room9" >Salle navy</string>
-    <string name="room10" >Salle fuchsia</string>
+    <string name="room1">Salle red</string>
+    <string name="room2">Salle maroon</string>
+    <string name="room3">Salle yellow</string>
+    <string name="room4">Salle lime</string>
+    <string name="room5">Salle green</string>
+    <string name="room6">Salle aqua</string>
+    <string name="room7">Salle teal</string>
+    <string name="room8">Salle blue</string>
+    <string name="room9">Salle navy</string>
+    <string name="room10">Salle fuchsia</string>
     <string name="room_filter_label">roomFilter</string>
     <string name="date_filter_label">dateFilter</string>
     <string name="room_filter_placeholder">exemple: Salle beta</string>
     <string name="date_filter_placeholder">jour/mois/année</string>
 
     <string-array name="rooms">
-        <item >@string/room1</item>
-        <item >@string/room2</item>
-        <item >@string/room3</item>
-        <item >@string/room4</item>
-        <item >@string/room5</item>
-        <item >@string/room6</item>
-        <item >@string/room7</item>
-        <item >@string/room8</item>
-        <item >@string/room9</item>
-        <item >@string/room10</item>
+        <item>@string/room1</item>
+        <item>@string/room2</item>
+        <item>@string/room3</item>
+        <item>@string/room4</item>
+        <item>@string/room5</item>
+        <item>@string/room6</item>
+        <item>@string/room7</item>
+        <item>@string/room8</item>
+        <item>@string/room9</item>
+        <item>@string/room10</item>
     </string-array>
 
     <string-array name="random_mails">
-        <item >abdel@lamzone.com</item>
-        <item >abel@lamzone.com</item>
-        <item >achille@lamzone.com</item>
-        <item >adeline@lamzone.com</item>
-        <item >adolphe@lamzone.com</item>
-        <item >adriana@lamzone.com</item>
-        <item >agathe@lamzone.com</item>
-        <item >ahmed@lamzone.com</item>
-        <item >aimery@lamzone.com</item>
-        <item >alain@lamzone.com</item>
-        <item >alban@lamzone.com</item>
-        <item >albertine@lamzone.com</item>
-        <item >albin@lamzone.com</item>
-        <item >alessandra@lamzone.com</item>
-        <item >alfred@lamzone.com</item>
-        <item >alice@lamzone.com</item>
-        <item >ana-maria@lamzone.com</item>
-        <item >andrea@lamzone.com</item>
-        <item >andrew@lamzone.com</item>
-        <item >alphonse@lamzone.com</item>
-        <item >amaury@lamzone.com</item>
-        <item >amina@lamzone.com</item>
-        <item >angel@lamzone.com</item>
-        <item >anissa@lamzone.com</item>
-        <item >anna-lisa@lamzone.com</item>
-        <item >anne@lamzone.com</item>
-        <item >armando@lamzone.com</item>
-        <item >barbara@lamzone.com</item>
-        <item >bastien@lamzone.com</item>
-        <item >bernadette@lamzone.com</item>
-        <item >bertrand@lamzone.com</item>
-        <item >bill@lamzone.com</item>
-        <item >blandine@lamzone.com</item>
-        <item >brahim@lamzone.com</item>
-        <item >carine@lamzone.com</item>
-        <item >charles@lamzone.com</item>
-        <item >carmine@lamzone.com</item>
-        <item >carole@lamzone.com</item>
-        <item >christiane@lamzone.com</item>
-        <item >christophe@lamzone.com</item>
-        <item >claudio@lamzone.com</item>
-        <item >chiara@lamzone.com</item>
-        <item >cyprien@lamzone.com</item>
-        <item >cyrille@lamzone.com</item>
-        <item >diego@lamzone.com</item>
-        <item >damien@lamzone.com</item>
-        <item >daniela@lamzone.com</item>
-        <item >diego@lamzone.com</item>
-        <item >edward@lamzone.com</item>
-        <item >edwin@lamzone.com</item>
-        <item >esther@lamzone.com</item>
+        <item>abdel@lamzone.com</item>
+        <item>abel@lamzone.com</item>
+        <item>achille@lamzone.com</item>
+        <item>adeline@lamzone.com</item>
+        <item>adolphe@lamzone.com</item>
+        <item>adriana@lamzone.com</item>
+        <item>agathe@lamzone.com</item>
+        <item>ahmed@lamzone.com</item>
+        <item>aimery@lamzone.com</item>
+        <item>alain@lamzone.com</item>
+        <item>alban@lamzone.com</item>
+        <item>albertine@lamzone.com</item>
+        <item>albin@lamzone.com</item>
+        <item>alessandra@lamzone.com</item>
+        <item>alfred@lamzone.com</item>
+        <item>alice@lamzone.com</item>
+        <item>ana-maria@lamzone.com</item>
+        <item>andrea@lamzone.com</item>
+        <item>andrew@lamzone.com</item>
+        <item>alphonse@lamzone.com</item>
+        <item>amaury@lamzone.com</item>
+        <item>amina@lamzone.com</item>
+        <item>angel@lamzone.com</item>
+        <item>anissa@lamzone.com</item>
+        <item>anna-lisa@lamzone.com</item>
+        <item>anne@lamzone.com</item>
+        <item>armando@lamzone.com</item>
+        <item>barbara@lamzone.com</item>
+        <item>bastien@lamzone.com</item>
+        <item>bernadette@lamzone.com</item>
+        <item>bertrand@lamzone.com</item>
+        <item>bill@lamzone.com</item>
+        <item>blandine@lamzone.com</item>
+        <item>brahim@lamzone.com</item>
+        <item>carine@lamzone.com</item>
+        <item>charles@lamzone.com</item>
+        <item>carmine@lamzone.com</item>
+        <item>carole@lamzone.com</item>
+        <item>christiane@lamzone.com</item>
+        <item>christophe@lamzone.com</item>
+        <item>claudio@lamzone.com</item>
+        <item>chiara@lamzone.com</item>
+        <item>cyprien@lamzone.com</item>
+        <item>cyrille@lamzone.com</item>
+        <item>diego@lamzone.com</item>
+        <item>damien@lamzone.com</item>
+        <item>daniela@lamzone.com</item>
+        <item>diego@lamzone.com</item>
+        <item>edward@lamzone.com</item>
+        <item>edwin@lamzone.com</item>
+        <item>esther@lamzone.com</item>
 
     </string-array>
 
@@ -119,5 +119,7 @@
         <item name="image9">https://cdn.pixabay.com/photo/2016/11/21/03/56/landscape-1844226_960_720.png</item>
         <item name="image10">https://cdn.pixabay.com/photo/2014/12/29/08/29/lens-582605_960_720.jpg</item>
     </string-array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
