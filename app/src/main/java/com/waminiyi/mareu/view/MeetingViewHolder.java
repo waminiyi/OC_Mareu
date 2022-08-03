@@ -31,4 +31,3 @@ public class MeetingViewHolder extends RecyclerView.ViewHolder {
         iconImage=itemView.findViewById(R.id.item_list_avatar);
     }
 }
-

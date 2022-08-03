@@ -1,23 +1,20 @@
 package com.waminiyi.mareu.controller;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.DialogFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -31,6 +28,7 @@ import com.waminiyi.mareu.R;
 import com.waminiyi.mareu.databinding.ActivityNewMeetingBinding;
 import com.waminiyi.mareu.model.Meeting;
 import com.waminiyi.mareu.model.MeetingDatabase;
+import com.waminiyi.mareu.view.AttendeesListAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,7 +50,8 @@ public class NewMeetingActivity extends AppCompatActivity implements View.OnClic
     private MeetingDatabase mMeetingDatabase = MeetingDatabase.getInstance();
     private ActivityNewMeetingBinding binding;
     private Meeting mMeeting;
-    private ArrayAdapter<String> mListAdapter;
+    private RecyclerView mMailRecyclerView;
+    private AttendeesListAdapter mailAdapter;
     private int mImageVisibility;
 
     @Override
@@ -67,6 +66,9 @@ public class NewMeetingActivity extends AppCompatActivity implements View.OnClic
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close);
 
+        this.configureRecyclerView();
+
+
         mImageVisibility = getResources().getInteger(R.integer.grid_column_count);
         Intent intent = getIntent();
 
@@ -78,8 +80,6 @@ public class NewMeetingActivity extends AppCompatActivity implements View.OnClic
         } else {
             getSupportActionBar().setTitle(R.string.new_meeting_label);
 
-            mListAdapter = new ArrayAdapter<>(this, R.layout.listview_item, mAttendeesMailList);
-            binding.attendeesMailListview.setAdapter(mListAdapter);
 
             if (binding.newMeetingImageView != null) {
                 binding.newMeetingImageView.setVisibility(View.GONE);
@@ -101,12 +101,12 @@ public class NewMeetingActivity extends AppCompatActivity implements View.OnClic
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    binding.newMeetingTopicEdittext.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+//                    binding.newMeetingTopicEdittext.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    binding.newMeetingTopicEdittext.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+//                    binding.newMeetingTopicEdittext.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
 
                     mMeetingTopic = binding.newMeetingTopicEdittext.getText().toString();
                 }
@@ -164,9 +164,8 @@ public class NewMeetingActivity extends AppCompatActivity implements View.OnClic
         }
 
         mAttendeesMailList = mMeeting.getMeetingAttendees();
-        mListAdapter = new ArrayAdapter<>(this, R.layout.listview_item, mAttendeesMailList);
-        binding.attendeesMailListview.setAdapter(mListAdapter);
-        mListAdapter.notifyDataSetChanged();
+
+        mailAdapter.setMailsList(mAttendeesMailList);
 
     }
 
@@ -198,7 +197,7 @@ public class NewMeetingActivity extends AppCompatActivity implements View.OnClic
         }
 
         // Initialize array adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(NewMeetingActivity.this, R.layout.listview_item, dataSource);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(NewMeetingActivity.this, R.layout.dialog_listview_item, dataSource);
 
         // set adapter
         listView.setAdapter(adapter);
@@ -233,7 +232,7 @@ public class NewMeetingActivity extends AppCompatActivity implements View.OnClic
                         }
                         break;
                 }
-                mListAdapter.notifyDataSetChanged();
+                mailAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -285,5 +284,16 @@ public class NewMeetingActivity extends AppCompatActivity implements View.OnClic
 
     private boolean isTextValid(String text) {
         return !text.trim().isEmpty() && text.length() >= 2;
+    }
+
+    private void configureRecyclerView() {
+
+        mMailRecyclerView = (RecyclerView)findViewById(R.id.attendees_mail_recyclerview) ;
+        mMailRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        mailAdapter= new AttendeesListAdapter(mAttendeesMailList);
+
+        mMailRecyclerView.setAdapter(mailAdapter);
+
     }
 }

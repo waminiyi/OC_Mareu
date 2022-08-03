@@ -6,9 +6,8 @@
     <dimen name="title_size">16sp</dimen>
     <dimen name="subtitle_size">14sp</dimen>
     <dimen name="recycler_view_image_margin_horizontal">12dip</dimen>
-    <dimen name="icon_width">24dip</dimen>
-    <dimen name="icon_height">24dip</dimen>
-    <dimen name="image_view_size">48dip</dimen>
+    <dimen name="icon_width">28dip</dimen>
+    <dimen name="icon_height">28dip</dimen>
     <dimen name="layout_margin_top">16dip</dimen>
     <dimen name="fab_margin">4dip</dimen>
     <dimen name="dialog_box_width">320dip</dimen>
@@ -22,5 +21,10 @@
     <dimen name="listview_item_padding">8dip</dimen>
     <dimen name="dialog_edittext_padding">12dip</dimen>
     <dimen name="listview_width_land">600dip</dimen>
-    <dimen name="attendees_textview_margin_land">112dip</dimen>
+    <dimen name="attendees_textview_margin_land">32dip</dimen>
+    <dimen name="meeting_details_listview_margin_start_land">72dip</dimen>
+    <dimen name="dialog_box_width_land">400dip</dimen>
+    <dimen name="dialog_box_height_land">360dip</dimen>
+    <dimen name="image_icon_size">60dip</dimen>
+    <dimen name="avatar_size">24dp</dimen>
 </resources>

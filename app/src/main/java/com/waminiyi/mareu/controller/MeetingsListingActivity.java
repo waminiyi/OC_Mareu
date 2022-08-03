@@ -39,7 +39,6 @@ public class MeetingsListingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_meetings_listing);
 
         binding = ActivityMeetingsListingBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();

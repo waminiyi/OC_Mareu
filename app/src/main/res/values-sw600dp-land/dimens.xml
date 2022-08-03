@@ -22,5 +22,10 @@
     <dimen name="listview_item_padding">8dip</dimen>
     <dimen name="dialog_edittext_padding">12dip</dimen>
     <dimen name="listview_width_land">600dip</dimen>
-    <dimen name="attendees_textview_margin_land">112dip</dimen>
+    <dimen name="attendees_textview_margin_land">12dip</dimen>
+    <dimen name="meeting_details_listview_margin_start_land">100dip</dimen>
+    <dimen name="dialog_box_width_land">540dip</dimen>
+    <dimen name="dialog_box_height_land">440dip</dimen>
+    <dimen name="image_icon_size">80dip</dimen>
+    <dimen name="avatar_size">24dp</dimen>
 </resources>

@@ -11,85 +11,103 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-        <EditText
-            android:id="@+id/new_meeting_topic_edittext"
-            style="@style/TextViewStyle"
+        <LinearLayout
+            android:id="@+id/informations_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_title"
-            android:hint="@string/add_title_placeholder"
-            android:inputType="textMultiLine"
-            android:textSize="@dimen/title_size"
-            app:drawableTint="@color/drawable_start_color"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/new_meeting_date_textview"
-            style="@style/TextViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:hint="@string/meeting_date_placeholder"
-            app:drawableStartCompat="@drawable/ic_calendar"
-            app:drawableTint="@color/drawable_start_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/new_meeting_topic_edittext" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/new_meeting_time_textview"
-            style="@style/TextViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:hint="@string/meeting_time_placeholder"
-            app:drawableStartCompat="@drawable/ic_schedule"
-            app:drawableTint="@color/drawable_start_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/new_meeting_date_textview" />
+                <EditText
+                    android:id="@+id/new_meeting_topic_edittext"
+                    style="@style/TextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/ic_title"
+                    android:hint="@string/add_title_placeholder"
+                    android:inputType="textMultiLine"
+                    android:textSize="@dimen/title_size"
+                    app:drawableTint="@color/drawable_start_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/new_meeting_room_textview"
-            style="@style/TextViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:hint="@string/meeting_room_placeholder"
-            app:drawableStartCompat="@drawable/ic_room"
-            app:drawableTint="@color/drawable_start_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_meeting_time_textview" />
+                <TextView
+                    android:id="@+id/new_meeting_date_textview"
+                    style="@style/TextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:hint="@string/meeting_date_placeholder"
+                    app:drawableStartCompat="@drawable/ic_calendar"
+                    app:drawableTint="@color/drawable_start_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/new_meeting_topic_edittext" />
 
-        <TextView
-            android:id="@+id/new_meeting_attendees_adding_textview"
-            style="@style/TextViewStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:hint="@string/add_attendees_label"
-            app:drawableStartCompat="@drawable/ic_person"
-            app:drawableTint="@color/drawable_start_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_meeting_room_textview" />
+                <TextView
+                    android:id="@+id/new_meeting_time_textview"
+                    style="@style/TextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:hint="@string/meeting_time_placeholder"
+                    app:drawableStartCompat="@drawable/ic_schedule"
+                    app:drawableTint="@color/drawable_start_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/new_meeting_date_textview" />
 
-        <ListView
-            android:id="@+id/attendees_mail_listview"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/meeting_details_listview_height"
-            android:layout_marginStart="@dimen/meeting_details_listview_margin_start"
-            android:layout_marginEnd="@dimen/text_margin_horizontal"
-            android:background="@null"
-            android:divider="@null"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_meeting_attendees_adding_textview"
-            tools:ignore="NestedScrolling" />
+                <TextView
+                    android:id="@+id/new_meeting_room_textview"
+                    style="@style/TextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:hint="@string/meeting_room_placeholder"
+                    app:drawableStartCompat="@drawable/ic_room"
+                    app:drawableTint="@color/drawable_start_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/new_meeting_time_textview" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/new_meeting_attendees_adding_textview"
+                    style="@style/TextViewStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/attendees_textview_margin_land"
+                    android:gravity="center_vertical"
+                    android:hint="@string/add_attendees_label"
+                    app:drawableStartCompat="@drawable/ic_person"
+                    app:drawableTint="@color/drawable_start_color"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/attendees_mail_recyclerview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/meeting_details_listview_margin_start_land"
+                    android:layout_marginEnd="@dimen/text_margin_horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/new_meeting_attendees_adding_textview"
+                    tools:listitem="@layout/listview_item" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/new_meeting_save_button"
@@ -103,10 +121,10 @@
             android:textSize="@dimen/title_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/attendees_mail_listview"
+            app:layout_constraintTop_toBottomOf="@+id/informations_layout"
             app:tint="@color/white" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </ScrollView>

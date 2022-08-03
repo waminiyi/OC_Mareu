@@ -88,18 +88,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/new_meeting_room_textview" />
 
-        <ListView
-            android:id="@+id/attendees_mail_listview"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/attendees_mail_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/meeting_details_listview_height"
+            android:layout_height="wrap_content"
+            tools:listitem="@layout/listview_item"
             android:layout_marginStart="@dimen/meeting_details_listview_margin_start"
             android:layout_marginEnd="@dimen/text_margin_horizontal"
-            android:background="@null"
-            android:divider="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_meeting_attendees_adding_textview"
-            tools:ignore="NestedScrolling" />
+            app:layout_constraintTop_toBottomOf="@+id/new_meeting_attendees_adding_textview" />
 
         <Button
             android:id="@+id/new_meeting_save_button"
@@ -113,8 +111,7 @@
             android:textSize="@dimen/title_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/attendees_mail_listview"
-            app:tint="@color/white" />
+            app:layout_constraintTop_toBottomOf="@+id/attendees_mail_recyclerview"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

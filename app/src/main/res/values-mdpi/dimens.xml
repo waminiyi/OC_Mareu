@@ -15,12 +15,17 @@
     <dimen name="dialog_box_height">340dip</dimen>
     <dimen name="meeting_item_margin_top">16dip</dimen>
     <dimen name="meeting_item_margin_bottom">8dip</dimen>
-    <dimen name="button_padding">12dip</dimen>
+    <dimen name="button_padding">4dip</dimen>
     <dimen name="meeting_imageview_height">120dip</dimen>
     <dimen name="meeting_details_listview_height">120dip</dimen>
     <dimen name="meeting_details_listview_margin_start">48dip</dimen>
     <dimen name="listview_item_padding">8dip</dimen>
     <dimen name="dialog_edittext_padding">12dip</dimen>
     <dimen name="listview_width_land">600dip</dimen>
-    <dimen name="attendees_textview_margin_land">112dip</dimen>
+    <dimen name="attendees_textview_margin_land">20dip</dimen>
+    <dimen name="meeting_details_listview_margin_start_land">48dip</dimen>
+    <dimen name="dialog_box_width_land">400dip</dimen>
+    <dimen name="dialog_box_height_land">360dip</dimen>
+    <dimen name="image_icon_size">60dip</dimen>
+    <dimen name="avatar_size">18dp</dimen>
 </resources>
