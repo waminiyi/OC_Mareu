@@ -61,6 +61,7 @@ public class NewMeetingActivity extends AppCompatActivity implements View.OnClic
         binding = ActivityNewMeetingBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        setSupportActionBar(binding.newMeetingTopAppBar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(false);

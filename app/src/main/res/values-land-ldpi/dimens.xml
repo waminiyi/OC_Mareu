@@ -10,8 +10,8 @@
     <dimen name="icon_height">24dip</dimen>
     <dimen name="layout_margin_top">8dip</dimen>
     <dimen name="fab_margin">4dip</dimen>
-    <dimen name="dialog_box_width">300dip</dimen>
-    <dimen name="dialog_box_height">240dip</dimen>
+    <dimen name="dialog_box_width">240dip</dimen>
+    <dimen name="dialog_box_height">300dip</dimen>
     <dimen name="meeting_item_margin_top">8dip</dimen>
     <dimen name="meeting_item_margin_bottom">4dip</dimen>
     <dimen name="button_padding">4dip</dimen>
@@ -19,6 +19,8 @@
     <dimen name="meeting_details_listview_margin_start">48dip</dimen>
     <dimen name="attendees_textview_margin_land">112dip</dimen>
     <dimen name="meeting_details_listview_margin_start_land">48dip</dimen>
+    <dimen name="dialog_box_width_land">400dip</dimen>
+    <dimen name="dialog_box_height_land">360dip</dimen>
     <dimen name="image_icon_size">44dip</dimen>
     <dimen name="avatar_size">24dip</dimen>
     <dimen name="top_app_bar_text_size">16sp</dimen>

@@ -44,6 +44,8 @@ public class MeetingsListingActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        setSupportActionBar(binding.topAppBar);
+
         gridColumnCount = getResources().getInteger(R.integer.grid_column_count);
 
         this.configureOnClickRecyclerView();

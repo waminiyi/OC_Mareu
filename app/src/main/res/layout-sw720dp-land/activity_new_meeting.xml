@@ -11,6 +11,23 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/new_meeting_appbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/new_meeting_top_app_bar"
+                style="@style/ToolBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:menu="@menu/main_menu"
+                app:titleTextAppearance="@style/ToolBarStyle" />
+        </com.google.android.material.appbar.AppBarLayout>
+
         <ImageView
             android:id="@+id/new_meeting_image_view"
             android:layout_width="match_parent"
@@ -20,7 +37,7 @@
             android:src="@drawable/ic_circle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/new_meeting_appbar" />
 
         <LinearLayout
             android:id="@+id/informations_layout"
@@ -34,7 +51,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="4">
 
                 <EditText
                     android:id="@+id/new_meeting_topic_edittext"
@@ -44,6 +61,7 @@
                     android:drawableStart="@drawable/ic_title"
                     android:hint="@string/add_title_placeholder"
                     android:inputType="textMultiLine"
+                    android:paddingLeft="0dip"
                     android:textSize="@dimen/title_size"
                     app:drawableTint="@color/drawable_start_color"
                     app:layout_constraintStart_toStartOf="parent"
@@ -91,7 +109,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="6">
 
                 <TextView
                     android:id="@+id/new_meeting_attendees_adding_textview"

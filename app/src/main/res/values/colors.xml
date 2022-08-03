@@ -24,7 +24,6 @@
     <color name="enabled_text_view_color">#494949</color>
     <color name="disabled_text_view_color">#494949</color>
     <color name="text_hint_color">#BE8A8A8A</color>
-    <color name="boxstroke_color">#777474</color>
 
 
 </resources>

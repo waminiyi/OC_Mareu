@@ -15,6 +15,8 @@
         <item name="android:textColorHint">@color/text_hint_color</item>
         <item name="android:textColor">@color/text_view_color</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingBottom">4dip</item>
+
         <item name="android:layout_marginStart">@dimen/text_margin_horizontal</item>
         <item name="android:layout_marginLeft">@dimen/text_margin_horizontal</item>
         <item name="android:layout_marginTop">@dimen/text_margin_top</item>
@@ -22,6 +24,11 @@
         <item name="android:layout_marginRight">@dimen/text_margin_horizontal</item>
         <item name="android:drawablePadding">@dimen/drawable_padding_left</item>
         <item name="android:textSize">@dimen/title_size</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textSize">@dimen/top_app_bar_text_size</item>
     </style>
 
 

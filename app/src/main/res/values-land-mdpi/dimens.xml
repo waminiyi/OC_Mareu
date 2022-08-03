@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="text_margin_horizontal">16dip</dimen>
-    <dimen name="drawable_padding_left">20dip</dimen>
-    <dimen name="text_margin_top">8dip</dimen>
-    <dimen name="title_size">14sp</dimen>
-    <dimen name="subtitle_size">12sp</dimen>
+    <dimen name="drawable_padding_left">16dip</dimen>
+    <dimen name="text_margin_top">16dip</dimen>
+    <dimen name="title_size">15sp</dimen>
+    <dimen name="subtitle_size">13sp</dimen>
     <dimen name="recycler_view_image_margin_horizontal">8dip</dimen>
     <dimen name="icon_width">24dip</dimen>
     <dimen name="icon_height">24dip</dimen>
-    <dimen name="layout_margin_top">8dip</dimen>
+    <dimen name="layout_margin_top">16dip</dimen>
     <dimen name="fab_margin">4dip</dimen>
     <dimen name="dialog_box_width">300dip</dimen>
-    <dimen name="dialog_box_height">240dip</dimen>
-    <dimen name="meeting_item_margin_top">8dip</dimen>
+    <dimen name="dialog_box_height">220dip</dimen>
+    <dimen name="meeting_item_margin_top">12dip</dimen>
     <dimen name="meeting_item_margin_bottom">4dip</dimen>
     <dimen name="button_padding">4dip</dimen>
-    <dimen name="meeting_imageview_height">100dip</dimen>
+    <dimen name="meeting_imageview_height">120dip</dimen>
     <dimen name="meeting_details_listview_margin_start">48dip</dimen>
-    <dimen name="attendees_textview_margin_land">112dip</dimen>
+    <dimen name="attendees_textview_margin_land">28dip</dimen>
     <dimen name="meeting_details_listview_margin_start_land">48dip</dimen>
-    <dimen name="image_icon_size">44dip</dimen>
-    <dimen name="avatar_size">24dip</dimen>
+    <dimen name="image_icon_size">52dip</dimen>
+    <dimen name="avatar_size">18dp</dimen>
     <dimen name="top_app_bar_text_size">16sp</dimen>
     <dimen name="recyclerview_padding_bottom">60dip</dimen>
-    <dimen name="del_button_size">24dip</dimen>
+    <dimen name="del_button_size">24dp</dimen>
 </resources>
