@@ -1,9 +1,12 @@
 package com.waminiyi.mareu.controller;
 
+import static com.waminiyi.mareu.controller.NewMeetingActivity.EXTRA_MEETING;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -28,35 +31,26 @@ import com.waminiyi.mareu.view.MeetingRecyclerViewAdapter;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link MeetingListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class MeetingListFragment extends Fragment {
 
-    private FloatingActionButton mNewMeetingButton;
     private MeetingDatabase mMeetingDatabase = MeetingDatabase.getInstance();
 
-    public static final int ADD_MEETING_REQUEST = 1;
+
     public static final int VIEW_MEETING_REQUEST = 2;
+
     private List<Meeting> mMeetingList;
     private RecyclerView mRecyclerView;
     public MeetingRecyclerViewAdapter mAdapter;
 
 
-    /**
-     * @return A new instance of fragment MeetingListFragment.
-     */
-
-    public static MeetingListFragment newInstance() {
-        MeetingListFragment fragment = new MeetingListFragment();
-        return fragment;
+    public MeetingListFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
         mMeetingDatabase = MeetingDatabase.getInstance();
     }
 
@@ -69,6 +63,32 @@ public class MeetingListFragment extends Fragment {
         mRecyclerView = (RecyclerView) view;
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.main_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String filterParameter;
+        String filterPlaceholder;
+        switch (item.getItemId()) {
+            case R.id.filter_date:
+                filterParameter = getResources().getString(R.string.date_filter_label);
+                filterPlaceholder = getString(R.string.date_filter_placeholder);
+                filterMeetings(item, filterParameter, filterPlaceholder);
+                return true;
+
+            case R.id.filter_room:
+                filterParameter = getResources().getString(R.string.room_filter_label);
+                filterPlaceholder = getString(R.string.room_filter_placeholder);
+                filterMeetings(item, filterParameter, filterPlaceholder);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
 
@@ -84,12 +104,11 @@ public class MeetingListFragment extends Fragment {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
                         Meeting meeting = mAdapter.getMeetingAt(position);
-
                         Intent intent = new Intent(getContext(), NewMeetingActivity.class);
 
-                        intent.putExtra(NewMeetingActivity.EXTRA_MEETING, meeting);
-
-                        startActivityForResult(intent, VIEW_MEETING_REQUEST);
+                        intent.putExtra(NewMeetingActivity.EXTRA_MEETING,meeting );
+                        intent.putExtra(NewMeetingActivity.MEETING_MODE,VIEW_MEETING_REQUEST);
+                        startActivity(intent);
 
                     }
                 });
@@ -101,5 +120,26 @@ public class MeetingListFragment extends Fragment {
         super.onResume();
         configureRecyclerView();
     }
+
+    private void filterMeetings(MenuItem searchItem, String parameter, String placeHolder) {
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setQueryHint(placeHolder);
+        searchView.setIconifiedByDefault(false);
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.filter(parameter, newText);
+                return false;
+            }
+        });
+
+    }
+
 }
 

@@ -30,10 +30,8 @@ public class MeetingsListingActivity extends AppCompatActivity {
     private MeetingDatabase mMeetingDatabase = MeetingDatabase.getInstance();
 
     public static final int ADD_MEETING_REQUEST = 1;
-    public static final int VIEW_MEETING_REQUEST = 2;
-    public MeetingRecyclerViewAdapter adapter;
-    private int gridColumnCount;
     private ActivityMeetingsListingBinding binding;
+    private MeetingListFragment mMeetingListFragment;
 
 
     @Override
@@ -44,106 +42,22 @@ public class MeetingsListingActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+
         setSupportActionBar(binding.topAppBar);
 
-        gridColumnCount = getResources().getInteger(R.integer.grid_column_count);
-
-        this.configureOnClickRecyclerView();
+        this.configureAndShowDetailFragment();
 
         binding.newMeetingFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MeetingsListingActivity.this, NewMeetingActivity.class);
-                startActivityForResult(intent, ADD_MEETING_REQUEST);
+                intent.putExtra(NewMeetingActivity.MEETING_MODE,ADD_MEETING_REQUEST );
+                startActivity(intent);
             }
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main_menu, menu);
 
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        String filterParameter;
-        String filterPlaceholder;
-        switch (item.getItemId()) {
-            case R.id.filter_date:
-                filterParameter = getResources().getString(R.string.date_filter_label);
-                filterPlaceholder = getString(R.string.date_filter_placeholder);
-                filterMeetings(item, filterParameter, filterPlaceholder);
-                return true;
-
-            case R.id.filter_room:
-                filterParameter = getResources().getString(R.string.room_filter_label);
-                filterPlaceholder = getString(R.string.room_filter_placeholder);
-                filterMeetings(item, filterParameter, filterPlaceholder);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    private void filterMeetings(MenuItem searchItem, String parameter, String placeHolder) {
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setQueryHint(placeHolder);
-        searchView.setIconifiedByDefault(false);
-        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                adapter.filter(parameter, newText);
-                return false;
-            }
-        });
-
-    }
-
-    private void configureOnClickRecyclerView() {
-
-        binding.recyclerview.setLayoutManager(new GridLayoutManager(this, gridColumnCount));
-
-        List<Meeting> meetingList = mMeetingDatabase.getMeetingList();
-
-        adapter = new MeetingRecyclerViewAdapter(this, meetingList);
-        binding.recyclerview.setAdapter(adapter);
-        ItemClickSupport.addTo(binding.recyclerview, R.layout.meeting_item)
-                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                    @Override
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        Meeting meeting = adapter.getMeetingAt(position);
-
-                        Intent intent = new Intent(MeetingsListingActivity.this, NewMeetingActivity.class);
-
-                        intent.putExtra(NewMeetingActivity.EXTRA_MEETING, meeting);
-
-                        startActivityForResult(intent, VIEW_MEETING_REQUEST);
-
-                    }
-                });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == ADD_MEETING_REQUEST && resultCode == RESULT_OK) {
-            Meeting newMeeting = data.getParcelableExtra(NewMeetingActivity.EXTRA_MEETING);
-
-            newMeeting.setColorIndex(getColorFromRoom(newMeeting.getMeetingRoom()));
-            mMeetingDatabase.addMeeting(newMeeting);
-            adapter.setMeetingsList(mMeetingDatabase.getMeetingList());
-        }
-    }
 
     private int getColorFromRoom(String room) {
 
@@ -159,4 +73,10 @@ public class MeetingsListingActivity extends AppCompatActivity {
         return colorIndex;
     }
 
+    private void configureAndShowDetailFragment() {
+        mMeetingListFragment = (MeetingListFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
+
+        mMeetingListFragment = new MeetingListFragment();
+        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_main, mMeetingListFragment).commit();
+    }
 }

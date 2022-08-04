@@ -40,6 +40,7 @@
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-land/activity_new_meeting.xml" value="0.5" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-land/dialog_listview_item.xml" value="0.3975" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-land/dialog_searchable_spinner.xml" value="0.5675" />
+        <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-land/fragment_meeting_details.xml" value="0.2705992509363296" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-land/listview_item.xml" value="0.3975" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-land/meeting_item.xml" value="0.1" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw320dp-land/activity_meetings_listing.xml" value="0.31084656084656087" />
@@ -50,29 +51,33 @@
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw600dp-land/activity_new_meeting.xml" value="0.5" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw600dp-land/dialog_listview_item.xml" value="0.12421875" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw600dp-land/dialog_searchable_spinner.xml" value="0.4765625" />
+        <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw600dp-land/fragment_meeting_details.xml" value="0.2209480122324159" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw600dp-land/listview_item.xml" value="0.310546875" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw600dp-land/meeting_item.xml" value="0.3792372881355932" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw720dp-land/activity_meetings_listing.xml" value="0.2359437751004016" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw720dp-land/activity_new_meeting.xml" value="0.25" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw720dp-land/dialog_listview_item.xml" value="0.12421875" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw720dp-land/dialog_searchable_spinner.xml" value="0.2359437751004016" />
+        <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw720dp-land/fragment_meeting_details.xml" value="0.1" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw720dp-land/fragment_time_picker.xml" value="0.2359437751004016" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw720dp-land/listview_item.xml" value="0.1" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout-sw720dp-land/meeting_item.xml" value="0.2359437751004016" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/activity_main.xml" value="0.3671875" />
-        <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/activity_meetings_listing.xml" value="0.5" />
+        <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/activity_meetings_listing.xml" value="0.3" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/activity_new_meeting.xml" value="0.5" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/attendee_item.xml" value="0.87875" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/custom_action_bar.xml" value="0.41159250585480095" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/dialog_listview_item.xml" value="0.87875" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/dialog_searchable_spinner.xml" value="0.5" />
+        <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/fragment_meeting_details.xml" value="0.36363636363636365" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/fragment_meeting_list.xml" value="0.4127634660421546" />
-        <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/fragment_new_meeting.xml" value="0.685131195335277" />
+        <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/fragment_new_meeting.xml" value="0.2564102564102564" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/fragment_time_picker.xml" value="0.88125" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/listview_item.xml" value="0.5" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/mail_dialog_searchable_spinner.xml" value="0.36614583333333334" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/meeting_item.xml" value="0.1" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/layout/room_dialog_searchable_spinner.xml" value="0.3671875" />
+        <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/menu/fragment_menu.xml" value="0.88125" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/menu/main_menu.xml" value="0.1" />
         <entry key="..\:/Users/PatrickSOTO/AndroidStudioProjects/Mareu/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/PatrickSOTO/AppData/Local/Android/Sdk/platforms/android-32/data/res/drawable/editbox_background.xml" value="0.1" />

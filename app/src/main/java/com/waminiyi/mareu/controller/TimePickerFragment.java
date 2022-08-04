@@ -2,6 +2,7 @@ package com.waminiyi.mareu.controller;
 
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,7 +20,20 @@ import com.waminiyi.mareu.R;
 import java.util.Calendar;
 
 
-public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
+public class TimePickerFragment extends DialogFragment  {
+    private Context context;
+    private TimePickerDialog.OnTimeSetListener mListener;
+
+    public void setListener(TimePickerDialog.OnTimeSetListener mListener) {
+        this.mListener = mListener;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
 
     @NonNull
     @Override
@@ -30,12 +44,8 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
         int minute = c.get(Calendar.MINUTE);
 
         // Create a new instance of TimePickerDialog and return it
-        return new TimePickerDialog(getActivity(), this, hour, minute,
+        return new TimePickerDialog(context, mListener, hour, minute,
                 DateFormat.is24HourFormat(getActivity()));
     }
 
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        NewMeetingActivity activity = (NewMeetingActivity) getActivity();
-        activity.processTimePickerResult(hourOfDay, minute);
-    }
 }

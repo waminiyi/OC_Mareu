@@ -16,8 +16,9 @@ public class AttendeesListAdapter extends RecyclerView.Adapter<AttendeesListView
     private List<String> mMailList;
     Context mContext;
 
-    public AttendeesListAdapter(List<String> mailList) {
+    public AttendeesListAdapter(Context context,List <String> mailList) {
         this.mMailList = mailList;
+        this.mContext=context;
     }
 
     @NonNull
@@ -31,7 +32,6 @@ public class AttendeesListAdapter extends RecyclerView.Adapter<AttendeesListView
     public void onBindViewHolder(@NonNull AttendeesListViewHolder holder, int position) {
         if (mMailList != null && position < mMailList.size()) {
             String mail = mMailList.get(position);
-            mContext = holder.avatarImage.getContext();
 
             holder.mailTextView.setText(mail);
 

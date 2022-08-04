@@ -2,6 +2,8 @@ package com.waminiyi.mareu.controller;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
@@ -10,14 +12,22 @@ import androidx.fragment.app.DialogFragment;
 
 import java.util.Calendar;
 
-public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class DatePickerFragment extends DialogFragment {
 
-    /**
-     * Creates the date picker dialog with the current date from Calendar.
-     *
-     * @param savedInstanceState    Saved instance state bundle
-     * @return DatePickerDialog     The date picker dialog
-     */
+    private Context context;
+    private DatePickerDialog.OnDateSetListener mListener;
+
+    public void setListener(DatePickerDialog.OnDateSetListener mListener) {
+        this.mListener = mListener;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
+
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -28,22 +38,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         int day = c.get(Calendar.DAY_OF_MONTH);
 
         // Create a new instance of DatePickerDialog and return it.
-        return new DatePickerDialog(getActivity(), this, year, month, day);
+        return new DatePickerDialog(context, mListener, year, month, day);
     }
 
-    /**
-     * Grabs the date and passes it to processDatePickerResult().
-     *
-     * @param datePicker  The date picker view
-     * @param year  The year chosen
-     * @param month The month chosen
-     * @param day   The day chosen
-     */
-    @Override
-    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        // Set the activity to the Main Activity.
-        NewMeetingActivity activity = (NewMeetingActivity) getActivity();
-        // Invoke Main Activity's processDatePickerResult() method.
-        activity.processDatePickerResult(year, month, day);
-    }
 }

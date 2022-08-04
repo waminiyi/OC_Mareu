@@ -11,7 +11,6 @@
         android:id="@+id/meeting_top_app_bar"
         style="@style/ToolBarStyle"
         android:layout_width="match_parent"
-        app:title="Détails de la réunion"
         android:layout_height="?attr/actionBarSize"
         app:titleTextAppearance="@style/ToolBarStyle" />
 

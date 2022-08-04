@@ -27,15 +27,13 @@
                 app:titleTextAppearance="@style/ToolBarStyle" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
+        <FrameLayout
+            android:id="@+id/frame_layout_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/recyclerview_padding_bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appbar"
-            tools:listitem="@layout/meeting_item" />
+            app:layout_constraintTop_toBottomOf="@+id/appbar" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -47,6 +45,5 @@
         app:backgroundTint="#D12929"
         app:srcCompat="@drawable/ic_add"
         app:tint="@color/white" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
