@@ -9,16 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.waminiyi.mareu.R;
+
 import java.util.List;
 
 public class AttendeesListAdapter extends RecyclerView.Adapter<AttendeesListViewHolder> {
 
     private List<String> mMailList;
-    Context mContext;
+    private Context mContext;
+    private int mTarget;
 
-    public AttendeesListAdapter(Context context,List <String> mailList) {
+    public AttendeesListAdapter(Context context, List<String> mailList, int target) {
         this.mMailList = mailList;
-        this.mContext=context;
+        this.mContext = context;
+        this.mTarget = target;
     }
 
     @NonNull
@@ -35,24 +38,20 @@ public class AttendeesListAdapter extends RecyclerView.Adapter<AttendeesListView
 
             holder.mailTextView.setText(mail);
 
-//            holder.timeTextView.setText(currentMeeting.getMeetingTime() + " - ");
-//            holder.topicTextView.setText(currentMeeting.getMeetingTopic() + " - ");
-//            holder.attendeesListTextView.setText(String.join(", ", currentMeeting.getMeetingAttendees()));
-//
-//            holder.iconImage.setColorFilter(mContext.getResources().getIntArray(R.array.colors_array)[colorIndex]);
-//
-//            holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    MeetingDatabase.getInstance().deleteMeeting(currentMeeting);
-//                    setMeetingsList(MeetingDatabase.getInstance().getMeetingList());
-//                }
-//            });
+            if (mTarget == 2) {
+                holder.actionButton.setVisibility(View.GONE);
+            } else {
+                holder.actionButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mMailList.remove(mail);
+                        setMailsList(mMailList);
+                    }
+                });
+            }
+
         }
-//        else {
-//
-//            holder.roomNameTextView.setText("No Meeting planned");
-//        }
+
     }
 
     public void setMailsList(List<String> mails) {

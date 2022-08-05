@@ -143,7 +143,7 @@ public class MeetingDetailsFragment extends Fragment {
     private void configureRecyclerView() {
 
         mAttendeesMailList = mMeeting.getMeetingAttendees();
-        mailAdapter = new AttendeesListAdapter(this.getContext(), mAttendeesMailList);
+        mailAdapter = new AttendeesListAdapter(this.getContext(), mAttendeesMailList,2);
         mMailRecyclerView.setAdapter(mailAdapter);
 
     }

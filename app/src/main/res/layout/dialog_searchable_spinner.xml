@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="@dimen/dialog_box_width"
     android:layout_height="@dimen/dialog_box_height"
     android:layout_gravity="center"
@@ -22,17 +22,15 @@
         android:id="@+id/edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/fab_margin"
-        android:layout_marginBottom="@dimen/fab_margin"
         android:background="@android:drawable/editbox_background"
         android:hint="@string/room_example_placeholder"
+        android:padding="@dimen/research_edittext_padding"
         android:singleLine="true"
         android:textSize="@dimen/subtitle_size" />
 
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="@dimen/title_size" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>

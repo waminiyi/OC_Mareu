@@ -85,7 +85,7 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
             String filterPattern = constraint.toString().toLowerCase().trim();
             if (parameter.equals(mContext.getString(R.string.room_filter_label))) {
                 for (Meeting meeting : mMeetingListCopy) {
-                    if (meeting.getMeetingRoom().toLowerCase().contains(filterPattern)) {
+                    if (meeting.getMeetingRoom().toLowerCase().contains(filterPattern.trim())) {
                         filteredList.add(meeting);
                     }
                 }

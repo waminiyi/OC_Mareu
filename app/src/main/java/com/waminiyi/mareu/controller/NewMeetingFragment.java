@@ -12,9 +12,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,19 +27,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.google.android.material.appbar.MaterialToolbar;
 import com.waminiyi.mareu.R;
+import com.waminiyi.mareu.model.MailModel;
 import com.waminiyi.mareu.model.Meeting;
 import com.waminiyi.mareu.model.MeetingDatabase;
+import com.waminiyi.mareu.utils.ItemClickSupport;
 import com.waminiyi.mareu.view.AttendeesListAdapter;
+import com.waminiyi.mareu.view.MailAddingAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,11 +49,8 @@ import java.util.List;
 public class NewMeetingFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     private Dialog mRoomDialog;
-    public static final String EXTRA_MEETING = "com.waminiyi.mareu.EXTRA_MEETING";
     private List<String> mMeetingRoomsList;
     private List<String> mEmployeesMailList;
-    private final String room = "Room";
-    private final String mail = "Mail";
     private String mMeetingTime = "";
     private String mMeetingRoom = "";
     private String mMeetingTopic = "";
@@ -67,6 +62,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     private AttendeesListAdapter mailAdapter;
     private Toolbar mToolbar;
     private Context mContext;
+    private List<MailModel> mMailsModelList;
 
     private EditText mNewMeetingTopicEditText;
     private TextView mNewMeetingDateTextview;
@@ -86,6 +82,12 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         mMeetingDatabase = MeetingDatabase.getInstance();
         mMeetingRoomsList = Arrays.asList(getResources().getStringArray(R.array.rooms));
         mEmployeesMailList = Arrays.asList(getResources().getStringArray(R.array.random_mails));
+        mMailsModelList = new ArrayList<>();
+
+        for (int i = 0; i < mEmployeesMailList.size(); i++) {
+            MailModel mailModel = new MailModel(mEmployeesMailList.get(i), false);
+            mMailsModelList.add(mailModel);
+        }
     }
 
     @Override
@@ -154,9 +156,9 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         } else if (v == mNewMeetingTimeTextview) {
             showTimePickerDialog();
         } else if (v == mNewMeetingRoomTextview) {
-            showDialogSpinner(room, mMeetingRoomsList);
+            showRoomDialog();
         } else if (v == mNewMeetingAttendeesAddingTextview) {
-            showDialogSpinner(mail, mEmployeesMailList);
+            showMailDialog();
         } else if (v == mMeetingSavingButton) {
             saveMeeting();
         } else {
@@ -165,12 +167,63 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
 
     }
 
-    public void showDialogSpinner(String target, List<String> dataSource) {
-        // Initialize dialog
-        mRoomDialog = new Dialog(mContext);
-        // set custom dialog
-        mRoomDialog.setContentView(R.layout.dialog_searchable_spinner);
+    public void showMailDialog() {
 
+        mRoomDialog = new Dialog(mContext);
+        mRoomDialog.setContentView(R.layout.mail_dialog_searchable_spinner);
+        mRoomDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mRoomDialog.show();
+
+        TextView textView = mRoomDialog.findViewById(R.id.dialog_mail_research_label_textview);
+        EditText researchEditText = mRoomDialog.findViewById(R.id.dialog_mail_edit_text);
+        RecyclerView mailAddingRecyclerView = mRoomDialog.findViewById(R.id.dialog_mail_recycler_view);
+        mailAddingRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        MailAddingAdapter mailAddingAdapter = new MailAddingAdapter(mContext, mMailsModelList);
+
+        mailAddingRecyclerView.setAdapter(mailAddingAdapter);
+
+        ItemClickSupport.addTo(mailAddingRecyclerView, R.layout.listview_item)
+                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                        MailModel newMailModel = mailAddingAdapter.getMailAt(position);
+                        ImageButton actionButton = v.findViewById(R.id.new_meeting_mail_action_button);
+                        int index = mMailsModelList.indexOf(newMailModel);
+//
+                        if (!mAttendeesMailList.contains(newMailModel.getMail())) {
+                            mAttendeesMailList.add(newMailModel.getMail());
+                            mMailsModelList.set(index, new MailModel(newMailModel.getMail(), true));
+                            actionButton.setImageResource(R.drawable.ic_checked);
+                        } else {
+                            mAttendeesMailList.remove(newMailModel.getMail());
+                            mMailsModelList.set(index, new MailModel(newMailModel.getMail(), false));
+                            actionButton.setImageResource(R.drawable.ic_unchecked);
+                        }
+                        mailAdapter.notifyDataSetChanged();
+                    }
+                });
+
+        researchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mailAddingAdapter.filterMails(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+    }
+
+    private void showRoomDialog() {
+
+        mRoomDialog = new Dialog(mContext);
+        mRoomDialog.setContentView(R.layout.dialog_searchable_spinner);
         mRoomDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         mRoomDialog.show();
@@ -179,23 +232,8 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         EditText researchEditText = mRoomDialog.findViewById(R.id.edit_text);
         ListView listView = mRoomDialog.findViewById(R.id.list_view);
 
-        switch (target) {
-            case room:
-                textView.setText(R.string.find_room_label);
-                researchEditText.setHint(R.string.room_example_placeholder);
-                dataSource = mMeetingRoomsList;
-                break;
-            case mail:
-                textView.setText(R.string.find_attendee_label);
-                researchEditText.setHint(R.string.mail_example_placeholder);
-                dataSource = mEmployeesMailList;
-                break;
-        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.dialog_listview_item, mMeetingRoomsList);
 
-        // Initialize array adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.dialog_listview_item, dataSource);
-
-        // set adapter
         listView.setAdapter(adapter);
         researchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -215,20 +253,9 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (target) {
-                    case room:
-                        mMeetingRoom = adapter.getItem(position);
-                        mNewMeetingRoomTextview.setText(mMeetingRoom);
-                        mRoomDialog.dismiss();
-                        break;
-                    case mail:
-                        String newMail = adapter.getItem(position);
-                        if (!mAttendeesMailList.contains(newMail)) {
-                            mAttendeesMailList.add(newMail);
-                        }
-                        break;
-                }
-                mailAdapter.notifyDataSetChanged();
+                mMeetingRoom = adapter.getItem(position);
+                mNewMeetingRoomTextview.setText(mMeetingRoom);
+                mRoomDialog.dismiss();
             }
         });
     }
@@ -256,9 +283,9 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     }
 
     public void processDatePickerResult(int year, int month, int day) {
-        String month_string = Integer.toString(month + 1);
-        String day_string = Integer.toString(day);
-        String year_string = Integer.toString(year);
+        @SuppressLint("DefaultLocale") String month_string = String.format("%02d", month + 1);
+        @SuppressLint("DefaultLocale") String day_string = String.format("%02d", day);
+        @SuppressLint("DefaultLocale") String year_string = String.format("%02d", year);
         mMeetingDate = (day_string + "/" + month_string + "/" + year_string);
         mNewMeetingDateTextview.setText(mMeetingDate);
 
@@ -296,7 +323,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
 
         mMailRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
 
-        mailAdapter = new AttendeesListAdapter(mContext, mAttendeesMailList);
+        mailAdapter = new AttendeesListAdapter(mContext, mAttendeesMailList, 1);
 
         mMailRecyclerView.setAdapter(mailAdapter);
 

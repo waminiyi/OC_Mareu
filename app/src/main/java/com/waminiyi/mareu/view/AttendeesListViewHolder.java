@@ -14,11 +14,13 @@ public class AttendeesListViewHolder extends RecyclerView.ViewHolder{
 
     public TextView mailTextView;
     public ImageView avatarImage;
+    public ImageButton actionButton;
 
     public AttendeesListViewHolder(@NonNull View itemView) {
         super(itemView);
 
         mailTextView = itemView.findViewById(R.id.item_attendee_mail);
         avatarImage=itemView.findViewById(R.id.item_attendee_avatar);
+        actionButton=itemView.findViewById(R.id.new_meeting_mail_action_button);
     }
 }

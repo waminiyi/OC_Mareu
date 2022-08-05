@@ -9,7 +9,7 @@
     <dimen name="icon_width">24dip</dimen>
     <dimen name="icon_height">24dip</dimen>
     <dimen name="layout_margin_top">16dip</dimen>
-    <dimen name="fab_margin">4dip</dimen>
+    <dimen name="fab_margin_bottom">12dip</dimen>
     <dimen name="dialog_box_width">320dip</dimen>
     <dimen name="dialog_box_height">480dip</dimen>
     <dimen name="meeting_item_margin_top">16dip</dimen>
@@ -24,6 +24,11 @@
     <dimen name="image_icon_size">60dip</dimen>
     <dimen name="avatar_size">24dp</dimen>
     <dimen name="top_app_bar_text_size">24sp</dimen>
-    <dimen name="recyclerview_padding_bottom">60dip</dimen>
+    <dimen name="recyclerview_padding_bottom">40dip</dimen>
     <dimen name="del_button_size">48dp</dimen>
+    <dimen name="mail_action_button_size">12dip</dimen>
+    <dimen name="fab_margin_end">8dip</dimen>
+    <dimen name="research_edittext_padding">4dip</dimen>
+    <dimen name="save_button_margin_bottom">32dp</dimen>
+    <dimen name="save_button_margin_top">12dip</dimen>
 </resources>
