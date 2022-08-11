@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="DetailsToolBarStyle" parent="@android:style/Widget.Holo.Light.ActionBar" >
+        <item name="android:textSize">@dimen/top_app_bar_text_size</item>
+        <item name="android:background">@drawable/fragment_background</item>
+        <item name="titleTextColor">@color/darkblue</item>
+        <item name="paddingStart">2dip</item>
+        <item name="paddingEnd">2dip</item>
+    </style>
+
+</resources>

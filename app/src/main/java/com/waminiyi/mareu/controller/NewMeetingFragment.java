@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -27,12 +26,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.waminiyi.mareu.R;
 import com.waminiyi.mareu.model.MailModel;
 import com.waminiyi.mareu.model.Meeting;
@@ -60,16 +62,16 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     private Meeting mMeeting;
     private RecyclerView mMailRecyclerView;
     private AttendeesListAdapter mailAdapter;
-    private Toolbar mToolbar;
+    private Toolbar mTopAppBar;
     private Context mContext;
-    private List<MailModel> mMailsModelList;
+    public static List<MailModel> mMailsModelList;
 
     private EditText mNewMeetingTopicEditText;
     private TextView mNewMeetingDateTextview;
     private TextView mNewMeetingTimeTextview;
     private TextView mNewMeetingRoomTextview;
     private TextView mNewMeetingAttendeesAddingTextview;
-    private Button mMeetingSavingButton;
+    private ExtendedFloatingActionButton mMeetingSavingButton;
 
     public NewMeetingFragment() {
 
@@ -104,7 +106,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         mNewMeetingAttendeesAddingTextview = view.findViewById(R.id.new_meeting_attendees_adding_textview);
         mMeetingSavingButton = view.findViewById(R.id.new_meeting_save_button);
         mMailRecyclerView = view.findViewById(R.id.new_meeting_attendees_mail_recyclerview);
-        mToolbar = view.findViewById(R.id.new_meeting_top_app_bar);
+        mTopAppBar = view.findViewById(R.id.new_meeting_top_app_bar);
 
         return view;
     }
@@ -117,11 +119,10 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mToolbar.inflateMenu(R.menu.fragment_menu);
-        mToolbar.setOnMenuItemClickListener(item -> {
+        mTopAppBar.inflateMenu(R.menu.fragment_menu);
+        mTopAppBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.close_fragment) {
                 getActivity().finish();
-                return true;
             }
             return false;
         });
@@ -313,6 +314,8 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         mMeetingDatabase.addMeeting(mMeeting);
 
         getActivity().finish();
+
+
     }
 
     private boolean isTextValid(String text) {

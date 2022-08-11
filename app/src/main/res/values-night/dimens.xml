@@ -18,4 +18,10 @@
     <dimen name="research_edittext_padding">4dip</dimen>
     <dimen name="save_button_margin_bottom">32dp</dimen>
     <dimen name="save_button_margin_top">12dip</dimen>
+    <dimen name="listview_item_padding">8dip</dimen>
+    <dimen name="recyclerview_width">320dip</dimen>
+    <dimen name="meeting_item_inline_height">0dip</dimen>
+    <dimen name="mail_dialog_box_width">400dip</dimen>
+    <dimen name="mail_dialog_box_height">480dip</dimen>
+    <dimen name="fragment_padding_top">12dip</dimen>
 </resources>

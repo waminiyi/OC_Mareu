@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,10 +24,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.waminiyi.mareu.R;
 import com.waminiyi.mareu.model.Meeting;
-import com.waminiyi.mareu.model.MeetingDatabase;
-import com.waminiyi.mareu.utils.ItemClickSupport;
 import com.waminiyi.mareu.view.AttendeesListAdapter;
-import com.waminiyi.mareu.view.MeetingRecyclerViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +48,9 @@ public class MeetingDetailsFragment extends Fragment {
     private TextView mMeetingRoomTextview;
     private TextView mMeetingAttendeesLabelTextview;
     private ImageView mImageView;
-    private Toolbar mToolbar;
+    private Toolbar mTopAppBar;
+    private int mLayoutMode;
+    private FrameLayout mFrameLayout;
 
 
     private static final String MEETING_LABEL = "meeting";
@@ -82,6 +81,7 @@ public class MeetingDetailsFragment extends Fragment {
         if (getArguments() != null) {
             mMeeting = getArguments().getParcelable(MEETING_LABEL);
         }
+        mLayoutMode = getResources().getInteger(R.integer.layout_mode);
     }
 
     @Override
@@ -97,18 +97,26 @@ public class MeetingDetailsFragment extends Fragment {
         mMeetingAttendeesLabelTextview = view.findViewById(R.id.meeting_attendees_label_textview);
         mImageView = view.findViewById(R.id.meeting_image_view);
         mMailRecyclerView = view.findViewById(R.id.attendees_mail_recyclerview);
-        mToolbar=view.findViewById(R.id.meeting_top_app_bar);
-
+        mTopAppBar = view.findViewById(R.id.meeting_top_app_bar);
+        if (mLayoutMode == 2) {
+            mFrameLayout=getActivity().findViewById(R.id.frame_layout_meeting);
+        }
         mMailRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mToolbar.inflateMenu(R.menu.fragment_menu);
-        mToolbar.setOnMenuItemClickListener(item -> {
+        mTopAppBar.inflateMenu(R.menu.fragment_menu);
+        mTopAppBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.close_fragment) {
-                getActivity().finish();
+                if (mLayoutMode == 2) {
+                    getParentFragmentManager().beginTransaction().remove(MeetingDetailsFragment.this).commit();
+                    mFrameLayout.setVisibility(View.GONE);
+
+                }else{
+                    getActivity().finish();
+                }
                 return true;
             }
             return false;
@@ -143,7 +151,7 @@ public class MeetingDetailsFragment extends Fragment {
     private void configureRecyclerView() {
 
         mAttendeesMailList = mMeeting.getMeetingAttendees();
-        mailAdapter = new AttendeesListAdapter(this.getContext(), mAttendeesMailList,2);
+        mailAdapter = new AttendeesListAdapter(this.getContext(), mAttendeesMailList, 2);
         mMailRecyclerView.setAdapter(mailAdapter);
 
     }

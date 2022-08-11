@@ -1,82 +1,75 @@
 package com.waminiyi.mareu.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.widget.SearchView;
-import android.widget.Toast;
+import android.widget.FrameLayout;
 
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.waminiyi.mareu.R;
 import com.waminiyi.mareu.databinding.ActivityMeetingsListingBinding;
-import com.waminiyi.mareu.databinding.ActivityNewMeetingBinding;
-import com.waminiyi.mareu.model.Meeting;
 import com.waminiyi.mareu.model.MeetingDatabase;
-import com.waminiyi.mareu.utils.ItemClickSupport;
-import com.waminiyi.mareu.view.MeetingRecyclerViewAdapter;
-
-import java.util.List;
 
 public class MeetingsListingActivity extends AppCompatActivity {
     private FloatingActionButton mNewMeetingButton;
     private MeetingDatabase mMeetingDatabase = MeetingDatabase.getInstance();
+    private Toolbar mToolbar;
+    private FragmentManager mFragmentManager;
+    private FragmentTransaction mTransaction;
+    private FrameLayout mMeetingFrameLayout;
 
     public static final int ADD_MEETING_REQUEST = 1;
-    private ActivityMeetingsListingBinding binding;
-    private MeetingListFragment mMeetingListFragment;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_meetings_listing);
 
-        binding = ActivityMeetingsListingBinding.inflate(getLayoutInflater());
-        View view = binding.getRoot();
-        setContentView(view);
+        mFragmentManager = getSupportFragmentManager();
+        mTransaction = mFragmentManager.beginTransaction();
+        mTransaction.setReorderingAllowed(true);
 
+        mMeetingFrameLayout = findViewById(R.id.frame_layout_meeting);
+        mToolbar = findViewById(R.id.top_app_bar);
+        mNewMeetingButton = findViewById(R.id.new_meeting_fab);
 
-        setSupportActionBar(binding.topAppBar);
+        setSupportActionBar(mToolbar);
+        if (mMeetingFrameLayout != null) {
+            mMeetingFrameLayout.setVisibility(View.GONE);
+        }
 
-        this.configureAndShowDetailFragment();
+        this.configureAndShowMeetingListFragment();
 
-        binding.newMeetingFab.setOnClickListener(new View.OnClickListener() {
+        mNewMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(MeetingsListingActivity.this, NewMeetingActivity.class);
-                intent.putExtra(NewMeetingActivity.MEETING_MODE,ADD_MEETING_REQUEST );
+                intent.putExtra(NewMeetingActivity.MEETING_MODE, ADD_MEETING_REQUEST);
                 startActivity(intent);
             }
         });
     }
 
+    private void configureAndShowMeetingListFragment() {
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setReorderingAllowed(true);
+        MeetingListFragment meetingListFragment = (MeetingListFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
 
-    private int getColorFromRoom(String room) {
-
-        String[] rooms = getResources().getStringArray(R.array.rooms);
-        int colorIndex = R.color.red;
-
-        for (int i = 0; i < 10; i++) {
-            if (rooms[i].equals(room)) {
-                colorIndex = i;
-                break;
-            }
+        if (meetingListFragment == null) {
+            meetingListFragment = new MeetingListFragment();
+            transaction.add(R.id.frame_layout_main, meetingListFragment).commit();
         }
-        return colorIndex;
     }
 
-    private void configureAndShowDetailFragment() {
-        mMeetingListFragment = (MeetingListFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
 
-        mMeetingListFragment = new MeetingListFragment();
-        getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_main, mMeetingListFragment).commit();
-    }
 }

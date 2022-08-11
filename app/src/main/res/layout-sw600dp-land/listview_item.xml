@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/listview_item_padding">
+
+    <ImageView
+        android:id="@+id/item_attendee_avatar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="@dimen/listview_item_padding"
+        android:src="@drawable/ic_mood"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/item_attendee_mail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/listview_item_padding"
+        android:text="@string/mail_example_placeholder"
+        android:textColor="@color/enabled_text_view_color"
+        android:textSize="@dimen/title_size"
+        android:layout_marginEnd="@dimen/listview_item_padding"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/item_attendee_avatar"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/new_meeting_mail_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_delete_mail"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@null"
+        android:layout_marginEnd="@dimen/listview_item_padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+0</androidx.constraintlayout.widget.ConstraintLayout>

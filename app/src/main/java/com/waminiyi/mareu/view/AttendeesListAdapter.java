@@ -1,5 +1,7 @@
 package com.waminiyi.mareu.view;
 
+import static com.waminiyi.mareu.controller.NewMeetingFragment.mMailsModelList;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.waminiyi.mareu.R;
+import com.waminiyi.mareu.model.MailModel;
+import com.waminiyi.mareu.utils.ItemClickSupport;
 
 import java.util.List;
 
@@ -44,14 +48,17 @@ public class AttendeesListAdapter extends RecyclerView.Adapter<AttendeesListView
                 holder.actionButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        MailModel newMailModel = new MailModel(mail, true);
+
                         mMailList.remove(mail);
                         setMailsList(mMailList);
+
+                        int index = mMailsModelList.indexOf(newMailModel);
+                        mMailsModelList.set(index, new MailModel(mail, false));
                     }
                 });
             }
-
         }
-
     }
 
     public void setMailsList(List<String> mails) {
