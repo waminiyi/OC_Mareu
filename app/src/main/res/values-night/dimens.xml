@@ -3,12 +3,7 @@
     <dimen name="meeting_item_margin_top">16dip</dimen>
     <dimen name="meeting_item_margin_bottom">8dip</dimen>
     <dimen name="button_padding">12dip</dimen>
-    <dimen name="meeting_imageview_height">200dip</dimen>
     <dimen name="meeting_details_listview_margin_start">56dip</dimen>
-    <dimen name="attendees_textview_margin_land">112dip</dimen>
-    <dimen name="meeting_details_listview_margin_start_land">48dip</dimen>
-    <dimen name="dialog_box_width_land">400dip</dimen>
-    <dimen name="dialog_box_height_land">360dip</dimen>
     <dimen name="image_icon_size">60dip</dimen>
     <dimen name="avatar_size">24dp</dimen>
     <dimen name="recyclerview_padding_bottom">60dip</dimen>
@@ -17,11 +12,9 @@
     <dimen name="fab_margin_end">8dip</dimen>
     <dimen name="research_edittext_padding">4dip</dimen>
     <dimen name="save_button_margin_bottom">32dp</dimen>
-    <dimen name="save_button_margin_top">12dip</dimen>
     <dimen name="listview_item_padding">8dip</dimen>
     <dimen name="recyclerview_width">320dip</dimen>
     <dimen name="meeting_item_inline_height">0dip</dimen>
     <dimen name="mail_dialog_box_width">400dip</dimen>
     <dimen name="mail_dialog_box_height">480dip</dimen>
-    <dimen name="fragment_padding_top">12dip</dimen>
 </resources>

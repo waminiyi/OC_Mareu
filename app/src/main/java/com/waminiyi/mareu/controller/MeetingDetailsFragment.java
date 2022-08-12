@@ -95,7 +95,7 @@ public class MeetingDetailsFragment extends Fragment {
         mMeetingTimeTextview = view.findViewById(R.id.meeting_time_textview);
         mMeetingRoomTextview = view.findViewById(R.id.meeting_room_textview);
         mMeetingAttendeesLabelTextview = view.findViewById(R.id.meeting_attendees_label_textview);
-        mImageView = view.findViewById(R.id.meeting_image_view);
+//        mImageView = view.findViewById(R.id.meeting_image_view);
         mMailRecyclerView = view.findViewById(R.id.attendees_mail_recyclerview);
         mTopAppBar = view.findViewById(R.id.meeting_top_app_bar);
         if (mLayoutMode == 2) {
@@ -131,8 +131,7 @@ public class MeetingDetailsFragment extends Fragment {
     }
 
     private void loadMeetingDetails() {
-        mMeetingTopicTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_topic, 0, 0, 0);
-        mMeetingAttendeesLabelTextview.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_group, 0, 0, 0);
+//        mMeetingAttendeesLabelTextview.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_group, 0, 0, 0);
 
         mMeetingAttendeesLabelTextview.setText(getResources().getString(R.string.attendees_list_placeholder));
 
@@ -141,11 +140,11 @@ public class MeetingDetailsFragment extends Fragment {
         mMeetingDateTextview.setText(mMeeting.getMeetingDate());
         mMeetingTimeTextview.setText(mMeeting.getMeetingTime());
 
-        if (mImageView != null) {
-            Glide.with(this)
-                    .load(getResources().getStringArray(R.array.images_array)[mMeeting.getColorIndex()]).apply(RequestOptions.centerCropTransform())
-                    .into(mImageView);
-        }
+//        if (mImageView != null) {
+//            Glide.with(this)
+//                    .load(getResources().getStringArray(R.array.images_array)[mMeeting.getColorIndex()]).apply(RequestOptions.centerCropTransform())
+//                    .into(mImageView);
+//        }
     }
 
     private void configureRecyclerView() {

@@ -35,6 +35,7 @@ import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.waminiyi.mareu.R;
 import com.waminiyi.mareu.model.MailModel;
 import com.waminiyi.mareu.model.Meeting;
@@ -62,7 +63,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     private Meeting mMeeting;
     private RecyclerView mMailRecyclerView;
     private AttendeesListAdapter mailAdapter;
-    private Toolbar mTopAppBar;
+    private MaterialToolbar mTopAppBar;
     private Context mContext;
     public static List<MailModel> mMailsModelList;
 
@@ -71,7 +72,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     private TextView mNewMeetingTimeTextview;
     private TextView mNewMeetingRoomTextview;
     private TextView mNewMeetingAttendeesAddingTextview;
-    private ExtendedFloatingActionButton mMeetingSavingButton;
+    private FloatingActionButton mMeetingSavingButton;
 
     public NewMeetingFragment() {
 

@@ -11,8 +11,8 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" >@color/darkblue</item>
-        <item name="extendedFloatingActionButtonStyle">@style/ExtendedFabStyle</item>
         <item name="android:actionOverflowButtonStyle">@style/ActionButtonOverflow</item>
+        <item name="android:toolbarStyle">@style/DetailsToolBarStyle</item>
         <!-- Customize your theme here. -->
     </style>
 
