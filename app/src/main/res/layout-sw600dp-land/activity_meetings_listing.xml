@@ -34,6 +34,7 @@
             android:layout_weight="1" />
 
         <FrameLayout
+            android:layout_margin="8dip"
             android:id="@+id/frame_layout_meeting"
             android:layout_width="0dp"
             android:layout_height="match_parent"

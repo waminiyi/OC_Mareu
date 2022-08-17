@@ -16,6 +16,11 @@ public class DatePickerFragment extends DialogFragment {
 
     private Context context;
     private DatePickerDialog.OnDateSetListener mListener;
+    private boolean mIsForNewMeeting;
+
+    public DatePickerFragment(boolean isForNewMeeting) {
+        mIsForNewMeeting = isForNewMeeting;
+    }
 
     public void setListener(DatePickerDialog.OnDateSetListener mListener) {
         this.mListener = mListener;
@@ -31,14 +36,20 @@ public class DatePickerFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        // Use the current date as the default date in the picker.
+
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH);
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        // Create a new instance of DatePickerDialog and return it.
-        return new DatePickerDialog(context, mListener, year, month, day);
+
+        DatePickerDialog dialog = new DatePickerDialog(context, mListener, year, month, day);
+
+        if (mIsForNewMeeting) {
+            dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        }
+
+        return dialog;
     }
 
 }

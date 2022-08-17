@@ -22,7 +22,7 @@
     <dimen name="research_edittext_padding">8dip</dimen>
     <dimen name="save_button_margin_bottom">8dp</dimen>
     <dimen name="listview_item_padding">4dip</dimen>
-    <dimen name="top_app_bar_text_size">20sp</dimen>
+    <dimen name="top_app_bar_text_size">16sp</dimen>
     <dimen name="recyclerview_width">260dip</dimen>
     <dimen name="meeting_item_inline_height">0dip</dimen>
     <dimen name="mail_dialog_box_width">300dip</dimen>
@@ -37,8 +37,8 @@
     <dimen name="button_margin_horizontal">48dip</dimen>
     <dimen name="edit_text_padding_end">8dip</dimen>
     <dimen name="text_view_padding">8dip</dimen>
-    <dimen name="attendees_textview_padding_end">80dip</dimen>
-    <dimen name="meeting_topic_title_size">20sp</dimen>
+    <dimen name="attendees_textview_padding_end">40dip</dimen>
+    <dimen name="meeting_topic_title_size">18sp</dimen>
     <dimen name="textview_minheight">48dp</dimen>
     <dimen name="recyclerview_minheight">100dip</dimen>
 </resources>

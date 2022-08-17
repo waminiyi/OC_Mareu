@@ -39,16 +39,18 @@ import com.waminiyi.mareu.model.MeetingDatabase;
 import com.waminiyi.mareu.utils.ItemClickSupport;
 import com.waminiyi.mareu.view.MeetingRecyclerViewAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 public class MeetingListFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
-    private MeetingDatabase mMeetingDatabase = MeetingDatabase.getInstance();
-
-
+    private MeetingDatabase mMeetingDatabase;
     public static final int VIEW_MEETING_REQUEST = 2;
-
     private List<Meeting> mMeetingList;
     private RecyclerView mRecyclerView;
     public MeetingRecyclerViewAdapter mAdapter;
@@ -86,7 +88,7 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
         clearFilterButton = view.findViewById(R.id.clear_filter_meeting_fab);
 
         if (mLayoutMode == 2) {
-            mFrameLayout=getActivity().findViewById(R.id.frame_layout_meeting);
+            mFrameLayout = getActivity().findViewById(R.id.frame_layout_meeting);
         }
 
         clearFilterButton.hide();
@@ -114,7 +116,6 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
             case R.id.filter_date:
 
                 showDatePickerDialog();
-
                 return true;
 
             case R.id.filter_room:
@@ -161,18 +162,22 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     }
 
     public void showDatePickerDialog() {
-        DatePickerFragment newDatePickerFragment = new DatePickerFragment();
+        DatePickerFragment newDatePickerFragment = new DatePickerFragment(false);
         newDatePickerFragment.setListener(this);
         newDatePickerFragment.show(getParentFragmentManager(), getString(R.string.datePicker));
     }
 
     public String getDateFilter(int year, int month, int day) {
-        @SuppressLint("DefaultLocale") String month_string = String.format("%02d", month + 1);
-        @SuppressLint("DefaultLocale") String day_string = String.format("%02d", day);
-        @SuppressLint("DefaultLocale") String year_string = String.format("%02d", year);
 
-        String dateFilter = (day_string + "/" + month_string + "/" + year_string);
-        return dateFilter;
+        Calendar calendar = new GregorianCalendar();
+        calendar.set(year, month, day);
+        Date date = calendar.getTime();
+
+        String pattern = "EEEE dd MMMM yyyy";
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, new Locale("fr", "FR"));
+
+        return dateFormat.format(date);
 
     }
 

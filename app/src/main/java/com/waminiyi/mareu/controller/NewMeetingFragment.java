@@ -44,9 +44,16 @@ import com.waminiyi.mareu.utils.ItemClickSupport;
 import com.waminiyi.mareu.view.AttendeesListAdapter;
 import com.waminiyi.mareu.view.MailAddingAdapter;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Locale;
 
 
 public class NewMeetingFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
@@ -270,7 +277,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     }
 
     public void showDatePickerDialog() {
-        DatePickerFragment newDatePickerFragment = new DatePickerFragment();
+        DatePickerFragment newDatePickerFragment = new DatePickerFragment(true);
         newDatePickerFragment.setListener(this);
         newDatePickerFragment.show(getParentFragmentManager(), getString(R.string.datePicker));
     }
@@ -285,12 +292,16 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     }
 
     public void processDatePickerResult(int year, int month, int day) {
-        @SuppressLint("DefaultLocale") String month_string = String.format("%02d", month + 1);
-        @SuppressLint("DefaultLocale") String day_string = String.format("%02d", day);
-        @SuppressLint("DefaultLocale") String year_string = String.format("%02d", year);
-        mMeetingDate = (day_string + "/" + month_string + "/" + year_string);
-        mNewMeetingDateTextview.setText(mMeetingDate);
+        Calendar calendar=new GregorianCalendar();
+        calendar.set(year, month, day);
+        Date date =calendar.getTime();
 
+        String pattern = "EEEE dd MMMM yyyy";
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, new Locale("fr", "FR"));
+
+        mMeetingDate = dateFormat.format(date);
+        mNewMeetingDateTextview.setText(mMeetingDate);
     }
 
     @Override
@@ -306,6 +317,16 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     private void saveMeeting() {
 
         if (!isTextValid(mMeetingTopic) || !isTextValid(mMeetingRoom) || !isTextValid(mMeetingDate) || !isTextValid(mMeetingTime) || mAttendeesMailList.size() == 0) {
+
+            if (!isTextValid(mMeetingTopic)) {
+                mNewMeetingTopicEditText.setError("Veuillez ajouter un titre ");
+            }
+
+            updateTextView(mNewMeetingRoomTextview, mMeetingRoom, "Veuillez choisir une salle");
+            updateTextView(mNewMeetingDateTextview, mMeetingDate, "Veuillez choisir une date");
+            updateTextView(mNewMeetingTimeTextview, mMeetingTime, "Veuillez choisir une heure");
+            updateTextView(mNewMeetingAttendeesAddingTextview, String.join(", ", mAttendeesMailList), "Veuillez ajouter des invités");
+
             Toast.makeText(mContext, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -315,7 +336,6 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         mMeetingDatabase.addMeeting(mMeeting);
 
         getActivity().finish();
-
 
     }
 
@@ -345,6 +365,16 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
             }
         }
         return colorIndex;
+    }
+
+    private void updateTextView(TextView textView, String condition, String errorMessage) {
+
+        if (!isTextValid(condition)) {
+            textView.requestFocus();
+            textView.setError(errorMessage);
+        } else {
+            textView.setError(null);
+        }
     }
 
 }

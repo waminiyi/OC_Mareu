@@ -7,8 +7,8 @@
     <dimen name="icon_size">24dip</dimen>
     <dimen name="layout_margin_top">16dip</dimen>
     <dimen name="fab_margin_bottom">12dip</dimen>
-    <dimen name="dialog_box_width">240dip</dimen>
-    <dimen name="dialog_box_height">340dip</dimen>
+    <dimen name="dialog_box_width">300dip</dimen>
+    <dimen name="dialog_box_height">240dip</dimen>
     <dimen name="meeting_item_margin_top">12dip</dimen>
     <dimen name="meeting_item_margin_bottom">8dip</dimen>
     <dimen name="button_padding">12dip</dimen>
@@ -25,8 +25,8 @@
     <dimen name="top_app_bar_text_size">16sp</dimen>
     <dimen name="recyclerview_width">300dip</dimen>
     <dimen name="meeting_item_inline_height">0dip</dimen>
-    <dimen name="mail_dialog_box_width">300dip</dimen>
-    <dimen name="mail_dialog_box_height">340dip</dimen>
+    <dimen name="mail_dialog_box_width">340dip</dimen>
+    <dimen name="mail_dialog_box_height">260dip</dimen>
     <dimen name="image_button_size">36dip</dimen>
     <dimen name="divider_margin_start">48dip</dimen>
     <dimen name="relative_layout_padding_start">16dip</dimen>

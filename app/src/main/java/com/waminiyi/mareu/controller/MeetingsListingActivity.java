@@ -20,8 +20,6 @@ public class MeetingsListingActivity extends AppCompatActivity {
     private FloatingActionButton mNewMeetingButton;
     private MeetingDatabase mMeetingDatabase = MeetingDatabase.getInstance();
     private Toolbar mToolbar;
-    private FragmentManager mFragmentManager;
-    private FragmentTransaction mTransaction;
     private FrameLayout mMeetingFrameLayout;
 
     public static final int ADD_MEETING_REQUEST = 1;
@@ -31,10 +29,6 @@ public class MeetingsListingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetings_listing);
-
-        mFragmentManager = getSupportFragmentManager();
-        mTransaction = mFragmentManager.beginTransaction();
-        mTransaction.setReorderingAllowed(true);
 
         mMeetingFrameLayout = findViewById(R.id.frame_layout_meeting);
         mToolbar = findViewById(R.id.top_app_bar);
@@ -70,6 +64,5 @@ public class MeetingsListingActivity extends AppCompatActivity {
             transaction.add(R.id.frame_layout_main, meetingListFragment).commit();
         }
     }
-
 
 }
