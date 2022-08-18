@@ -10,12 +10,9 @@ import com.waminiyi.mareu.model.Meeting;
 
 public class NewMeetingActivity extends AppCompatActivity {
 
-    private NewMeetingFragment mNewMeetingFragment;
-    private MeetingDetailsFragment mMeetingDetailsFragment;
     public static final String MEETING_MODE = "MEETING_MODE";
     public static final String EXTRA_MEETING = "EXTRA_MEETING";
     private Meeting mMeeting;
-    private int mActivityMode;
 
 
     @Override
@@ -24,9 +21,9 @@ public class NewMeetingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_meeting);
 
         Intent intent = getIntent();
-        mActivityMode = intent.getIntExtra(MEETING_MODE, 1);
+        int activityMode = intent.getIntExtra(MEETING_MODE, 1);
 
-        if (mActivityMode == 2) {
+        if (activityMode == 2) {
             mMeeting = intent.getParcelableExtra(EXTRA_MEETING);
             this.configureAndShowMeetingDetailsFragment();
 
@@ -37,20 +34,20 @@ public class NewMeetingActivity extends AppCompatActivity {
     }
 
     private void configureAndShowMeetingDetailsFragment() {
-        mMeetingDetailsFragment = (MeetingDetailsFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_new_meeting);
+        MeetingDetailsFragment meetingDetailsFragment = (MeetingDetailsFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_new_meeting);
 
-        if (mMeetingDetailsFragment == null) {
-            mMeetingDetailsFragment = MeetingDetailsFragment.newInstance(mMeeting);
-            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_new_meeting, mMeetingDetailsFragment).commit();
+        if (meetingDetailsFragment == null) {
+            meetingDetailsFragment = MeetingDetailsFragment.newInstance(mMeeting);
+            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_new_meeting, meetingDetailsFragment).commit();
         }
     }
 
     private void configureAndShowNewMeetingFragment() {
-        mNewMeetingFragment = (NewMeetingFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_new_meeting);
+        NewMeetingFragment newMeetingFragment = (NewMeetingFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_new_meeting);
 
-        if (mNewMeetingFragment == null) {
-            mNewMeetingFragment = new NewMeetingFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_new_meeting, mNewMeetingFragment).commit();
+        if (newMeetingFragment == null) {
+            newMeetingFragment = new NewMeetingFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.frame_layout_new_meeting, newMeetingFragment).commit();
         }
     }
 }

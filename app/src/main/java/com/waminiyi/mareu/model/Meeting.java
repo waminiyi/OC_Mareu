@@ -4,6 +4,8 @@ package com.waminiyi.mareu.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.waminiyi.mareu.R;
+
 import java.util.List;
 
 public class Meeting implements Parcelable {
@@ -11,11 +13,11 @@ public class Meeting implements Parcelable {
     private final String mMeetingDate;
     private final String mMeetingRoom;
     private final String mMeetingTopic;
-    private final List <String> mMeetingAttendees;
+    private final List<String> mMeetingAttendees;
     private int mColorIndex;
 
-    public Meeting(String meetingDate, String meetingTime, String meetingRoom, String meetingTopic, List <String> meetingAttendees) {
-        mMeetingDate=meetingDate;
+    public Meeting(String meetingDate, String meetingTime, String meetingRoom, String meetingTopic, List<String> meetingAttendees) {
+        mMeetingDate = meetingDate;
         mMeetingTime = meetingTime;
         mMeetingRoom = meetingRoom;
         mMeetingTopic = meetingTopic;
@@ -55,7 +57,7 @@ public class Meeting implements Parcelable {
         return mMeetingTopic;
     }
 
-    public List <String> getMeetingAttendees() {
+    public List<String> getMeetingAttendees() {
         return mMeetingAttendees;
     }
 
@@ -67,7 +69,16 @@ public class Meeting implements Parcelable {
         return mColorIndex;
     }
 
-    public void setColorIndex(int colorIndex) {
+    public void setColorIndexFrom(String[] roomsList) {
+
+        int colorIndex = R.color.red;
+
+        for (int i = 0; i < 10; i++) {
+            if (roomsList[i].equals(mMeetingRoom)) {
+                colorIndex = i;
+                break;
+            }
+        }
         mColorIndex = colorIndex;
     }
 
@@ -85,4 +96,6 @@ public class Meeting implements Parcelable {
         dest.writeStringList(mMeetingAttendees);
         dest.writeInt(mColorIndex);
     }
+
+
 }

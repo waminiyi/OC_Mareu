@@ -11,7 +11,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,10 +23,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.FrameLayout;
+
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,7 +34,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.MaterialToolbar;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.waminiyi.mareu.R;
 import com.waminiyi.mareu.model.MailModel;
@@ -44,9 +44,7 @@ import com.waminiyi.mareu.utils.ItemClickSupport;
 import com.waminiyi.mareu.view.AttendeesListAdapter;
 import com.waminiyi.mareu.view.MailAddingAdapter;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -55,19 +53,16 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-
 public class NewMeetingFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
     private Dialog mRoomDialog;
     private List<String> mMeetingRoomsList;
-    private List<String> mEmployeesMailList;
     private String mMeetingTime = "";
     private String mMeetingRoom = "";
     private String mMeetingTopic = "";
     private String mMeetingDate = "";
     private List<String> mAttendeesMailList = new ArrayList<>();
     private MeetingDatabase mMeetingDatabase;
-    private Meeting mMeeting;
     private RecyclerView mMailRecyclerView;
     private AttendeesListAdapter mailAdapter;
     private MaterialToolbar mTopAppBar;
@@ -82,7 +77,6 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     private FloatingActionButton mMeetingSavingButton;
 
     public NewMeetingFragment() {
-
     }
 
     @Override
@@ -91,11 +85,11 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
 
         mMeetingDatabase = MeetingDatabase.getInstance();
         mMeetingRoomsList = Arrays.asList(getResources().getStringArray(R.array.rooms));
-        mEmployeesMailList = Arrays.asList(getResources().getStringArray(R.array.random_mails));
+        List<String> employeesMailList = Arrays.asList(getResources().getStringArray(R.array.random_mails));
         mMailsModelList = new ArrayList<>();
 
-        for (int i = 0; i < mEmployeesMailList.size(); i++) {
-            MailModel mailModel = new MailModel(mEmployeesMailList.get(i), false);
+        for (int i = 0; i < employeesMailList.size(); i++) {
+            MailModel mailModel = new MailModel(employeesMailList.get(i), false);
             mMailsModelList.add(mailModel);
         }
     }
@@ -157,7 +151,6 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         });
     }
 
-
     @Override
     public void onClick(View v) {
         if (v == mNewMeetingDateTextview) {
@@ -183,7 +176,6 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         mRoomDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mRoomDialog.show();
 
-        TextView textView = mRoomDialog.findViewById(R.id.dialog_mail_research_label_textview);
         EditText researchEditText = mRoomDialog.findViewById(R.id.dialog_mail_edit_text);
         RecyclerView mailAddingRecyclerView = mRoomDialog.findViewById(R.id.dialog_mail_recycler_view);
         mailAddingRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
@@ -226,7 +218,6 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
             public void afterTextChanged(Editable s) {
             }
         });
-
     }
 
     private void showRoomDialog() {
@@ -237,7 +228,6 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
 
         mRoomDialog.show();
 
-        TextView textView = mRoomDialog.findViewById(R.id.research_label_textview);
         EditText researchEditText = mRoomDialog.findViewById(R.id.edit_text);
         ListView listView = mRoomDialog.findViewById(R.id.list_view);
 
@@ -269,7 +259,6 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         });
     }
 
-
     public void showTimePickerDialog() {
         TimePickerFragment newTimePickerFragment = new TimePickerFragment();
         newTimePickerFragment.setListener(this);
@@ -288,17 +277,14 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         @SuppressLint("DefaultLocale") String minute_string = String.format("%02d", minute);
         mMeetingTime = (hour_string + "h" + minute_string);
         mNewMeetingTimeTextview.setText(mMeetingTime);
-
     }
 
     public void processDatePickerResult(int year, int month, int day) {
-        Calendar calendar=new GregorianCalendar();
+        Calendar calendar = new GregorianCalendar();
         calendar.set(year, month, day);
-        Date date =calendar.getTime();
+        Date date = calendar.getTime();
 
-        String pattern = "EEEE dd MMMM yyyy";
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, new Locale("fr", "FR"));
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMM yyyy", new Locale("fr", "FR"));
 
         mMeetingDate = dateFormat.format(date);
         mNewMeetingDateTextview.setText(mMeetingDate);
@@ -315,7 +301,6 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     }
 
     private void saveMeeting() {
-
         if (!isTextValid(mMeetingTopic) || !isTextValid(mMeetingRoom) || !isTextValid(mMeetingDate) || !isTextValid(mMeetingTime) || mAttendeesMailList.size() == 0) {
 
             if (!isTextValid(mMeetingTopic)) {
@@ -331,12 +316,12 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
             return;
         }
 
-        mMeeting = new Meeting(mMeetingDate, mMeetingTime, mMeetingRoom, mMeetingTopic, mAttendeesMailList);
-        mMeeting.setColorIndex(getColorFromRoom(mMeetingRoom));
-        mMeetingDatabase.addMeeting(mMeeting);
+        Meeting meeting = new Meeting(mMeetingDate, mMeetingTime, mMeetingRoom, mMeetingTopic, mAttendeesMailList);
+        String[] rooms = getResources().getStringArray(R.array.rooms);
+        meeting.setColorIndexFrom(rooms);
+        mMeetingDatabase.addMeeting(meeting);
 
         getActivity().finish();
-
     }
 
     private boolean isTextValid(String text) {
@@ -346,29 +331,11 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     private void configureRecyclerView() {
 
         mMailRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-
         mailAdapter = new AttendeesListAdapter(mContext, mAttendeesMailList, 1);
-
         mMailRecyclerView.setAdapter(mailAdapter);
-
-    }
-
-    private int getColorFromRoom(String room) {
-
-        String[] rooms = getResources().getStringArray(R.array.rooms);
-        int colorIndex = R.color.red;
-
-        for (int i = 0; i < 10; i++) {
-            if (rooms[i].equals(room)) {
-                colorIndex = i;
-                break;
-            }
-        }
-        return colorIndex;
     }
 
     private void updateTextView(TextView textView, String condition, String errorMessage) {
-
         if (!isTextValid(condition)) {
             textView.requestFocus();
             textView.setError(errorMessage);
@@ -376,5 +343,4 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
             textView.setError(null);
         }
     }
-
 }

@@ -1,6 +1,5 @@
 package com.waminiyi.mareu.controller;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -154,7 +153,6 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
                 });
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -178,7 +176,6 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
         SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, new Locale("fr", "FR"));
 
         return dateFormat.format(date);
-
     }
 
     @Override
@@ -206,7 +203,6 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
 
         mRoomDialog.show();
 
-        TextView textView = mRoomDialog.findViewById(R.id.research_label_textview);
         EditText researchEditText = mRoomDialog.findViewById(R.id.edit_text);
         ListView listView = mRoomDialog.findViewById(R.id.list_view);
 
