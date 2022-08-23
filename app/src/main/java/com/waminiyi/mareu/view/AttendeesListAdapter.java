@@ -1,6 +1,5 @@
 package com.waminiyi.mareu.view;
 
-import static com.waminiyi.mareu.controller.NewMeetingFragment.mMailsModelList;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,8 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.waminiyi.mareu.R;
+import com.waminiyi.mareu.controller.NewMeetingFragment;
 import com.waminiyi.mareu.model.MailModel;
-import com.waminiyi.mareu.utils.ItemClickSupport;
 
 import java.util.List;
 
@@ -21,6 +20,13 @@ public class AttendeesListAdapter extends RecyclerView.Adapter<AttendeesListView
     private List<String> mMailList;
     private Context mContext;
     private int mTarget;
+    private NewMeetingFragment mNewMeetingFragment;
+
+    public AttendeesListAdapter(NewMeetingFragment newMeetingFragment, List<String> mailList, int target) {
+        this.mMailList = mailList;
+        this.mNewMeetingFragment = newMeetingFragment;
+        this.mTarget = target;
+    }
 
     public AttendeesListAdapter(Context context, List<String> mailList, int target) {
         this.mMailList = mailList;
@@ -50,11 +56,8 @@ public class AttendeesListAdapter extends RecyclerView.Adapter<AttendeesListView
                     public void onClick(View v) {
                         MailModel newMailModel = new MailModel(mail, true);
 
-                        mMailList.remove(mail);
+                        mNewMeetingFragment.removeAttendee(newMailModel);
                         setMailsList(mMailList);
-
-                        int index = mMailsModelList.indexOf(newMailModel);
-                        mMailsModelList.set(index, new MailModel(mail, false));
                     }
                 });
             }

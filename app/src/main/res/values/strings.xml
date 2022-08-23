@@ -14,7 +14,7 @@
     <string name="item_time_placeholder">Time -</string>
     <string name="item_room_placeholder">Room</string>
     <string name="find_room_label">Rechercher une salle</string>
-    <string name="find_attendee_label">Rechercher un collaborateur</string>
+    <string name="find_attendee_label">Ajouter des invités</string>
     <string name="room_example_placeholder">exemple: salle 1</string>
     <string name="mail_example_placeholder">exemple@lamzone.com</string>
     <string name="meeting_details_label">Détails de la réunion</string>

@@ -1,11 +1,8 @@
 package com.waminiyi.mareu.controller;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,36 +12,27 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.waminiyi.mareu.R;
 import com.waminiyi.mareu.model.Meeting;
 import com.waminiyi.mareu.model.MeetingDatabase;
 import com.waminiyi.mareu.utils.ItemClickSupport;
+import com.waminiyi.mareu.utils.StringsUtils;
+import com.waminiyi.mareu.utils.UIUtils;
 import com.waminiyi.mareu.view.MeetingRecyclerViewAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
+
 
 public class MeetingListFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
@@ -56,13 +44,10 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     private FloatingActionButton clearFilterButton;
     private String mDateFilter;
     private String mRoomFilter;
-    private Dialog mRoomDialog;
     private Context mContext;
     private List<String> mMeetingRoomsList;
-    private MeetingDetailsFragment mMeetingDetailsFragment;
     private int mLayoutMode;
     private FrameLayout mFrameLayout;
-
 
     public MeetingListFragment() {
     }
@@ -119,7 +104,8 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
 
             case R.id.filter_room:
 
-                showRoomDialog();
+                UIUtils uiUtils = new UIUtils(this);
+                uiUtils.showRoomDialogAndReturnRoomFilter();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -160,27 +146,13 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     }
 
     public void showDatePickerDialog() {
-        DatePickerFragment newDatePickerFragment = new DatePickerFragment(false);
-        newDatePickerFragment.setListener(this);
-        newDatePickerFragment.show(getParentFragmentManager(), getString(R.string.datePicker));
-    }
-
-    public String getDateFilter(int year, int month, int day) {
-
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(year, month, day);
-        Date date = calendar.getTime();
-
-        String pattern = "EEEE dd MMMM yyyy";
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat(pattern, new Locale("fr", "FR"));
-
-        return dateFormat.format(date);
+        DatePickerFragment datePickerFragment = new DatePickerFragment(this, false);
+        datePickerFragment.show(getParentFragmentManager(), getString(R.string.datePicker));
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        mDateFilter = getDateFilter(year, month, dayOfMonth);
+        mDateFilter = StringsUtils.formatDate(year, month, dayOfMonth);
         filterByDate();
     }
 
@@ -195,46 +167,7 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
         clearFilterButton.hide();
     }
 
-    private void showRoomDialog() {
-
-        mRoomDialog = new Dialog(mContext);
-        mRoomDialog.setContentView(R.layout.dialog_searchable_spinner);
-        mRoomDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        mRoomDialog.show();
-
-        EditText researchEditText = mRoomDialog.findViewById(R.id.edit_text);
-        ListView listView = mRoomDialog.findViewById(R.id.list_view);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.dialog_listview_item, mMeetingRoomsList);
-
-        listView.setAdapter(adapter);
-        researchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mRoomFilter = adapter.getItem(position);
-                mRoomDialog.dismiss();
-                filterByRoom();
-            }
-        });
-    }
-
-    private void filterByRoom() {
+    public void filterByRoom() {
         String filterParameter = getResources().getString(R.string.room_filter_label);
         mAdapter.filter(filterParameter, mRoomFilter);
         clearFilterButton.show();
@@ -245,9 +178,13 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setReorderingAllowed(true);
-        mMeetingDetailsFragment = MeetingDetailsFragment.newInstance(meeting);
-        transaction.replace(R.id.frame_layout_meeting, mMeetingDetailsFragment);
+        MeetingDetailsFragment meetingDetailsFragment = MeetingDetailsFragment.newInstance(meeting);
+        transaction.replace(R.id.frame_layout_meeting, meetingDetailsFragment);
         transaction.commitNow();
+    }
+
+    public void setRoomFilter(String roomFilter) {
+        mRoomFilter = roomFilter;
     }
 }
 

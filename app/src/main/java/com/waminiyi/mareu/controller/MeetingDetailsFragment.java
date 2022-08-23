@@ -119,7 +119,7 @@ public class MeetingDetailsFragment extends Fragment {
     private void configureRecyclerView() {
 
         List<String> attendeesMailList = mMeeting.getMeetingAttendees();
-        AttendeesListAdapter mailAdapter = new AttendeesListAdapter(this.getContext(), attendeesMailList, 2);
+        AttendeesListAdapter mailAdapter = new AttendeesListAdapter(this.getContext(), attendeesMailList,2);
         mMailRecyclerView.setAdapter(mailAdapter);
     }
 }

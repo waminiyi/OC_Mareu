@@ -2,11 +2,8 @@ package com.waminiyi.mareu.controller;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,19 +13,13 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -40,22 +31,15 @@ import com.waminiyi.mareu.R;
 import com.waminiyi.mareu.model.MailModel;
 import com.waminiyi.mareu.model.Meeting;
 import com.waminiyi.mareu.model.MeetingDatabase;
-import com.waminiyi.mareu.utils.ItemClickSupport;
+import com.waminiyi.mareu.utils.StringsUtils;
+import com.waminiyi.mareu.utils.UIUtils;
 import com.waminiyi.mareu.view.AttendeesListAdapter;
-import com.waminiyi.mareu.view.MailAddingAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Locale;
 
 public class NewMeetingFragment extends Fragment implements View.OnClickListener, TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
-    private Dialog mRoomDialog;
     private List<String> mMeetingRoomsList;
     private String mMeetingTime = "";
     private String mMeetingRoom = "";
@@ -64,10 +48,10 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     private List<String> mAttendeesMailList = new ArrayList<>();
     private MeetingDatabase mMeetingDatabase;
     private RecyclerView mMailRecyclerView;
-    private AttendeesListAdapter mailAdapter;
+    public AttendeesListAdapter mMailAdapter;
     private MaterialToolbar mTopAppBar;
     private Context mContext;
-    public static List<MailModel> mMailsModelList;
+    private List<MailModel> sMailsModelList;
 
     private EditText mNewMeetingTopicEditText;
     private TextView mNewMeetingDateTextview;
@@ -84,14 +68,8 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         super.onCreate(savedInstanceState);
 
         mMeetingDatabase = MeetingDatabase.getInstance();
-        mMeetingRoomsList = Arrays.asList(getResources().getStringArray(R.array.rooms));
-        List<String> employeesMailList = Arrays.asList(getResources().getStringArray(R.array.random_mails));
-        mMailsModelList = new ArrayList<>();
-
-        for (int i = 0; i < employeesMailList.size(); i++) {
-            MailModel mailModel = new MailModel(employeesMailList.get(i), false);
-            mMailsModelList.add(mailModel);
-        }
+        mMeetingRoomsList = StringsUtils.getMeetingRoomsList(this.getContext());
+        sMailsModelList = StringsUtils.getMailsModelList(this.getContext());
     }
 
     @Override
@@ -119,6 +97,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         this.configureRecyclerView();
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mTopAppBar.inflateMenu(R.menu.fragment_menu);
@@ -135,20 +114,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         mNewMeetingAttendeesAddingTextview.setOnClickListener(this);
         mMeetingSavingButton.setOnClickListener(this);
 
-        mNewMeetingTopicEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                mMeetingTopic = mNewMeetingTopicEditText.getText().toString();
-            }
-        });
     }
 
     @Override
@@ -158,149 +124,51 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         } else if (v == mNewMeetingTimeTextview) {
             showTimePickerDialog();
         } else if (v == mNewMeetingRoomTextview) {
-            showRoomDialog();
+            UIUtils uiUtils = new UIUtils(this);
+            uiUtils.showRoomDialogAndReturnRoom();
         } else if (v == mNewMeetingAttendeesAddingTextview) {
-            showMailDialog();
+            UIUtils uiUtils = new UIUtils(this);
+            uiUtils.configureAndShowMailDialog();
         } else if (v == mMeetingSavingButton) {
             saveMeeting();
         } else {
             throw new IllegalStateException("Unknown clicked view : " + v);
         }
-
     }
 
-    public void showMailDialog() {
-
-        mRoomDialog = new Dialog(mContext);
-        mRoomDialog.setContentView(R.layout.mail_dialog_searchable_spinner);
-        mRoomDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mRoomDialog.show();
-
-        EditText researchEditText = mRoomDialog.findViewById(R.id.dialog_mail_edit_text);
-        RecyclerView mailAddingRecyclerView = mRoomDialog.findViewById(R.id.dialog_mail_recycler_view);
-        mailAddingRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        MailAddingAdapter mailAddingAdapter = new MailAddingAdapter(mContext, mMailsModelList);
-
-        mailAddingRecyclerView.setAdapter(mailAddingAdapter);
-
-        ItemClickSupport.addTo(mailAddingRecyclerView, R.layout.listview_item)
-                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
-                    @Override
-                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        MailModel newMailModel = mailAddingAdapter.getMailAt(position);
-                        ImageButton actionButton = v.findViewById(R.id.new_meeting_mail_action_button);
-                        int index = mMailsModelList.indexOf(newMailModel);
-//
-                        if (!mAttendeesMailList.contains(newMailModel.getMail())) {
-                            mAttendeesMailList.add(newMailModel.getMail());
-                            mMailsModelList.set(index, new MailModel(newMailModel.getMail(), true));
-                            actionButton.setImageResource(R.drawable.ic_checked);
-                        } else {
-                            mAttendeesMailList.remove(newMailModel.getMail());
-                            mMailsModelList.set(index, new MailModel(newMailModel.getMail(), false));
-                            actionButton.setImageResource(R.drawable.ic_unchecked);
-                        }
-                        mailAdapter.notifyDataSetChanged();
-                    }
-                });
-
-        researchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                mailAddingAdapter.filterMails(s);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+    public void setMeetingRoom(String meetingRoom) {
+        mMeetingRoom = meetingRoom;
     }
 
-    private void showRoomDialog() {
-
-        mRoomDialog = new Dialog(mContext);
-        mRoomDialog.setContentView(R.layout.dialog_searchable_spinner);
-        mRoomDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-        mRoomDialog.show();
-
-        EditText researchEditText = mRoomDialog.findViewById(R.id.edit_text);
-        ListView listView = mRoomDialog.findViewById(R.id.list_view);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(mContext, R.layout.dialog_listview_item, mMeetingRoomsList);
-
-        listView.setAdapter(adapter);
-        researchEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.getFilter().filter(s);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mMeetingRoom = adapter.getItem(position);
-                mNewMeetingRoomTextview.setText(mMeetingRoom);
-                mRoomDialog.dismiss();
-            }
-        });
+    public void updateMeetingRoomTextView() {
+        mNewMeetingRoomTextview.setText(mMeetingRoom);
     }
 
     public void showTimePickerDialog() {
-        TimePickerFragment newTimePickerFragment = new TimePickerFragment();
-        newTimePickerFragment.setListener(this);
-        newTimePickerFragment.show(getParentFragmentManager(), getString(R.string.timePicker));
+        TimePickerFragment timePickerFragment = new TimePickerFragment(this);
+        timePickerFragment.show(getParentFragmentManager(), getString(R.string.timePicker));
     }
 
     public void showDatePickerDialog() {
-        DatePickerFragment newDatePickerFragment = new DatePickerFragment(true);
-        newDatePickerFragment.setListener(this);
-        newDatePickerFragment.show(getParentFragmentManager(), getString(R.string.datePicker));
-    }
-
-    public void processTimePickerResult(int hour, int minute) {
-
-        @SuppressLint("DefaultLocale") String hour_string = String.format("%02d", hour);
-        @SuppressLint("DefaultLocale") String minute_string = String.format("%02d", minute);
-        mMeetingTime = (hour_string + "h" + minute_string);
-        mNewMeetingTimeTextview.setText(mMeetingTime);
-    }
-
-    public void processDatePickerResult(int year, int month, int day) {
-        Calendar calendar = new GregorianCalendar();
-        calendar.set(year, month, day);
-        Date date = calendar.getTime();
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMM yyyy", new Locale("fr", "FR"));
-
-        mMeetingDate = dateFormat.format(date);
-        mNewMeetingDateTextview.setText(mMeetingDate);
+        DatePickerFragment datePickerFragment = new DatePickerFragment(this, true);
+        datePickerFragment.show(getParentFragmentManager(), getString(R.string.datePicker));
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        processDatePickerResult(year, month, dayOfMonth);
+        mMeetingDate = StringsUtils.formatDate(year, month, dayOfMonth);
+        mNewMeetingDateTextview.setText(mMeetingDate);
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        processTimePickerResult(hourOfDay, minute);
+        mMeetingTime = StringsUtils.formatTime(hourOfDay, minute);
+        mNewMeetingTimeTextview.setText(mMeetingTime);
     }
 
     private void saveMeeting() {
+        mMeetingTopic = mNewMeetingTopicEditText.getText().toString();
+
         if (!isTextValid(mMeetingTopic) || !isTextValid(mMeetingRoom) || !isTextValid(mMeetingDate) || !isTextValid(mMeetingTime) || mAttendeesMailList.size() == 0) {
 
             if (!isTextValid(mMeetingTopic)) {
@@ -312,7 +180,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
             updateTextView(mNewMeetingTimeTextview, mMeetingTime, "Veuillez choisir une heure");
             updateTextView(mNewMeetingAttendeesAddingTextview, String.join(", ", mAttendeesMailList), "Veuillez ajouter des invités");
 
-            Toast.makeText(mContext, "Veuillez remplir tous les champs", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "Veuillez remplir les champs manquants", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -331,8 +199,8 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     private void configureRecyclerView() {
 
         mMailRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-        mailAdapter = new AttendeesListAdapter(mContext, mAttendeesMailList, 1);
-        mMailRecyclerView.setAdapter(mailAdapter);
+        mMailAdapter = new AttendeesListAdapter(this, mAttendeesMailList, 1);
+        mMailRecyclerView.setAdapter(mMailAdapter);
     }
 
     private void updateTextView(TextView textView, String condition, String errorMessage) {
@@ -342,5 +210,25 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         } else {
             textView.setError(null);
         }
+    }
+
+    public void addAttendee(MailModel newMailModel) {
+        int index = sMailsModelList.indexOf(newMailModel);
+        mAttendeesMailList.add(newMailModel.getMail());
+        sMailsModelList.set(index, new MailModel(newMailModel.getMail(), true));
+    }
+
+    public void removeAttendee(MailModel newMailModel) {
+        int index = sMailsModelList.indexOf(newMailModel);
+        mAttendeesMailList.remove(newMailModel.getMail());
+        sMailsModelList.set(index, new MailModel(newMailModel.getMail(), false));
+    }
+
+    public List<String> getAttendeesMailList() {
+        return mAttendeesMailList;
+    }
+
+    public List<MailModel> getMailsModelList() {
+        return sMailsModelList;
     }
 }

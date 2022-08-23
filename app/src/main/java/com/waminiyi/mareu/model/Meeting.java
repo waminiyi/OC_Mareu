@@ -96,6 +96,4 @@ public class Meeting implements Parcelable {
         dest.writeStringList(mMeetingAttendees);
         dest.writeInt(mColorIndex);
     }
-
-
 }

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.waminiyi.mareu.R;
+import com.waminiyi.mareu.controller.NewMeetingFragment;
 import com.waminiyi.mareu.model.MailModel;
 import com.waminiyi.mareu.model.Meeting;
 
@@ -18,13 +19,16 @@ import java.util.List;
 public class MailAddingAdapter extends RecyclerView.Adapter<AttendeesListViewHolder> {
 
     private Context mContext;
+    private NewMeetingFragment mNewMeetingFragment;
     private List<MailModel> mMailsModelList;
     private List<MailModel> mMailsListCopy;
 
-    public MailAddingAdapter(Context context, List<MailModel> mailsModelList) {
-        this.mContext = context;
-        this.mMailsModelList = mailsModelList;
-        mMailsListCopy = new ArrayList<>(mailsModelList);
+    public MailAddingAdapter(NewMeetingFragment newMeetingFragment) {
+        this.mNewMeetingFragment = newMeetingFragment;
+        this.mContext = newMeetingFragment.getContext();
+
+        this.mMailsModelList = newMeetingFragment.getMailsModelList();
+        mMailsListCopy = new ArrayList<>(mMailsModelList);
     }
 
     public MailModel getMailAt(int position) {

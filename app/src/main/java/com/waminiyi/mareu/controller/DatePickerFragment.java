@@ -10,20 +10,22 @@ import android.widget.DatePicker;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
 
 public class DatePickerFragment extends DialogFragment {
 
     private Context context;
-    private DatePickerDialog.OnDateSetListener mListener;
-    private boolean mIsForNewMeeting;
+    private final DatePickerDialog.OnDateSetListener mListener;
 
-    public DatePickerFragment(boolean isForNewMeeting) {
+    private final boolean mIsForNewMeeting;
+
+    public DatePickerFragment(DatePickerDialog.OnDateSetListener listener, boolean isForNewMeeting) {
+        this.mListener = listener;
         mIsForNewMeeting = isForNewMeeting;
-    }
-
-    public void setListener(DatePickerDialog.OnDateSetListener mListener) {
-        this.mListener = mListener;
     }
 
     @Override
@@ -49,6 +51,5 @@ public class DatePickerFragment extends DialogFragment {
         }
         return dialog;
     }
-
 
 }

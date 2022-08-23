@@ -41,4 +41,7 @@
     <dimen name="meeting_topic_title_size">16sp</dimen>
     <dimen name="textview_minheight">40dp</dimen>
     <dimen name="recyclerview_minheight">160dip</dimen>
+    <dimen name="mail_dialog_textview_margin_top">8dip</dimen>
+    <dimen name="mail_dialog_fab_margin_top">-30dip</dimen>
+    <dimen name="mail_dialog_fab_margin_end">-4dip</dimen>
 </resources>

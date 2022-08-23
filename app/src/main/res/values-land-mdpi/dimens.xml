@@ -15,7 +15,7 @@
     <dimen name="meeting_details_listview_margin_start">28dip</dimen>
     <dimen name="image_icon_size">52dip</dimen>
     <dimen name="avatar_size">18dp</dimen>
-    <dimen name="recyclerview_padding_bottom">12dip</dimen>
+    <dimen name="recyclerview_padding_bottom">24dip</dimen>
     <dimen name="del_button_size">18dp</dimen>
     <dimen name="mail_action_button_size">12dip</dimen>
     <dimen name="fab_margin_end">8dip</dimen>
@@ -41,4 +41,7 @@
     <dimen name="meeting_topic_title_size">14sp</dimen>
     <dimen name="textview_minheight">32dip</dimen>
     <dimen name="recyclerview_minheight">120dip</dimen>
+    <dimen name="mail_dialog_textview_margin_top">8dip</dimen>
+    <dimen name="mail_dialog_fab_margin_top">-30dip</dimen>
+    <dimen name="mail_dialog_fab_margin_end">-4dip</dimen>
 </resources>

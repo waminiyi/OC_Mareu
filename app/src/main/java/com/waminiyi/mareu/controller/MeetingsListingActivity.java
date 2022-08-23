@@ -10,10 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.waminiyi.mareu.R;
-import com.waminiyi.mareu.databinding.ActivityMeetingsListingBinding;
 import com.waminiyi.mareu.model.MeetingDatabase;
 
 public class MeetingsListingActivity extends AppCompatActivity {
