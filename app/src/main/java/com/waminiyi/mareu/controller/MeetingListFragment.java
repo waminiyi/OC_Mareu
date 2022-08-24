@@ -41,13 +41,13 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     private List<Meeting> mMeetingList;
     private RecyclerView mRecyclerView;
     public MeetingRecyclerViewAdapter mAdapter;
-    private FloatingActionButton clearFilterButton;
     private String mDateFilter;
     private String mRoomFilter;
     private Context mContext;
     private List<String> mMeetingRoomsList;
     private int mLayoutMode;
     private FrameLayout mFrameLayout;
+    private MeetingsListingActivity mMeetingsListingActivity;
 
     public MeetingListFragment() {
     }
@@ -68,21 +68,12 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
 
         View view = inflater.inflate(R.layout.fragment_meeting_list, container, false);
         mContext = view.getContext();
+        mMeetingsListingActivity=(MeetingsListingActivity)getActivity();
         mRecyclerView = view.findViewById(R.id.recyclerview);
-        clearFilterButton = view.findViewById(R.id.clear_filter_meeting_fab);
 
         if (mLayoutMode == 2) {
             mFrameLayout = getActivity().findViewById(R.id.frame_layout_meeting);
         }
-
-        clearFilterButton.hide();
-
-        clearFilterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clearFilter();
-            }
-        });
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         return view;
@@ -143,6 +134,7 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     public void onResume() {
         super.onResume();
         configureRecyclerView();
+        mMeetingsListingActivity.hideFilterClear();
     }
 
     public void showDatePickerDialog() {
@@ -159,18 +151,18 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     private void filterByDate() {
         String filterParameter = getResources().getString(R.string.date_filter_label);
         mAdapter.filter(filterParameter, mDateFilter);
-        clearFilterButton.show();
+        mMeetingsListingActivity.showFilterClear();
     }
 
-    private void clearFilter() {
+    public void clearFilter() {
         mAdapter.setMeetingsList(mMeetingList);
-        clearFilterButton.hide();
+        mMeetingsListingActivity.hideFilterClear();
     }
 
     public void filterByRoom() {
         String filterParameter = getResources().getString(R.string.room_filter_label);
         mAdapter.filter(filterParameter, mRoomFilter);
-        clearFilterButton.show();
+        mMeetingsListingActivity.showFilterClear();
     }
 
     private void configureAndShowMeetingDetailsFragment(Meeting meeting) {

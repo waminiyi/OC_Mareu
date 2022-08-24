@@ -114,22 +114,21 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         mNewMeetingAttendeesAddingTextview.setOnClickListener(this);
         mMeetingSavingButton.setOnClickListener(this);
 
-
     }
 
     @Override
     public void onClick(View v) {
-        if (v == mNewMeetingDateTextview) {
+        if (v.getId() == R.id.new_meeting_date_textview) {
             showDatePickerDialog();
-        } else if (v == mNewMeetingTimeTextview) {
+        } else if (v.getId() == R.id.new_meeting_time_textview) {
             showTimePickerDialog();
-        } else if (v == mNewMeetingRoomTextview) {
+        } else if (v.getId() == R.id.new_meeting_room_textview) {
             UIUtils uiUtils = new UIUtils(this);
             uiUtils.showRoomDialogAndReturnRoom();
-        } else if (v == mNewMeetingAttendeesAddingTextview) {
+        } else if (v.getId() == R.id.new_meeting_attendees_adding_textview) {
             UIUtils uiUtils = new UIUtils(this);
             uiUtils.configureAndShowMailDialog();
-        } else if (v == mMeetingSavingButton) {
+        } else if (v.getId() == R.id.new_meeting_save_button) {
             saveMeeting();
         } else {
             throw new IllegalStateException("Unknown clicked view : " + v);

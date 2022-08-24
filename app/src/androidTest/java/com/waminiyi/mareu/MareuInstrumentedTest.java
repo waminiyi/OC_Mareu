@@ -11,12 +11,17 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withResourceName;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
+import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,6 +39,14 @@ import com.waminiyi.mareu.utils.RecyclerViewItemCountAssertion;
 import com.waminiyi.mareu.utils.RecyclerViewItemFilteringAssertion;
 import com.waminiyi.mareu.utils.StringsUtils;
 
+import tools.fastlane.screengrab.FalconScreenshotStrategy;
+import tools.fastlane.screengrab.Screengrab;
+import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
+import tools.fastlane.screengrab.cleanstatusbar.BluetoothState;
+import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar;
+import tools.fastlane.screengrab.cleanstatusbar.MobileDataType;
+import tools.fastlane.screengrab.locale.LocaleTestRule;
+
 
 @RunWith(AndroidJUnit4.class)
 public class MareuInstrumentedTest {
@@ -41,24 +54,17 @@ public class MareuInstrumentedTest {
     private final int ITEMS_COUNT = 10;
 
     private MeetingsListingActivity mListingActivity;
-    private NewMeetingActivity mNewMeetingActivity;
 
     @Rule
     public ActivityTestRule<MeetingsListingActivity> mListingActivityRule =
             new ActivityTestRule(MeetingsListingActivity.class);
 
-    @Rule
-    public ActivityTestRule<NewMeetingActivity> mNewMeetingActivityRule =
-            new ActivityTestRule(NewMeetingActivity.class);
-
 
     @Before
     public void setUp() {
         mListingActivity = mListingActivityRule.getActivity();
-        mNewMeetingActivity = mNewMeetingActivityRule.getActivity();
 
         assertThat(mListingActivity, notNullValue());
-        assertThat(mNewMeetingActivity, notNullValue());
     }
 
 
@@ -79,13 +85,14 @@ public class MareuInstrumentedTest {
     public void checkIfClickOnMeetingShowsMeetingDetails() {
         Meeting meeting = MeetingDatabase.getInstance().getMeetingList().get(0);
         onView(withId(R.id.recyclerview)).perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
+
         onView(withId(R.id.meeting_topic_textview)).check(matches(isDisplayed()));
         onView(withId(R.id.meeting_topic_textview)).check(matches(withText(meeting.getMeetingTopic())));
 
     }
 
     /**
-     *Test if filter is working
+     * Test if filter is working
      */
 
     @Test
@@ -98,7 +105,7 @@ public class MareuInstrumentedTest {
         onView(withResourceName("datePicker")).perform(PickerActions.setDate(2022, 05, 24));
         onView(withText(android.R.string.ok)).perform(click());
 
-        onView(withId(R.id.recyclerview)).check(new RecyclerViewItemFilteringAssertion("DATE", StringsUtils.formatDate(2022,04,24)));
+        onView(withId(R.id.recyclerview)).check(new RecyclerViewItemFilteringAssertion("DATE", StringsUtils.formatDate(2022, 04, 24)));
 
 
     }
@@ -139,6 +146,7 @@ public class MareuInstrumentedTest {
         //adding topic
         onView(withId(R.id.new_meeting_topic_edittext)).check(matches(isDisplayed()));
         onView(withId(R.id.new_meeting_topic_edittext)).perform(typeText(topic));
+
 
         //choosing date (here 2022-12-31)
         onView(withId(R.id.new_meeting_date_textview)).perform(click());

@@ -25,7 +25,9 @@ public class StringsUtils {
         Date date = calendar.getTime();
         SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE dd MMMM yyyy", new Locale("fr", "FR"));
 
-        return dateFormat.format(date);
+        String dateText=dateFormat.format(date);
+
+        return dateText.substring(0, 1).toUpperCase() + dateText.substring(1);
     }
 
     public static String formatTime(int hour, int minute) {

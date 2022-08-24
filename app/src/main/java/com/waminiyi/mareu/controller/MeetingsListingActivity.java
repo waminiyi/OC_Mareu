@@ -16,6 +16,8 @@ import com.waminiyi.mareu.model.MeetingDatabase;
 
 public class MeetingsListingActivity extends AppCompatActivity {
     private FloatingActionButton mNewMeetingButton;
+    private FloatingActionButton clearFilterButton;
+    MeetingListFragment mMeetingListFragment;
     private MeetingDatabase mMeetingDatabase = MeetingDatabase.getInstance();
     private Toolbar mToolbar;
     private FrameLayout mMeetingFrameLayout;
@@ -31,6 +33,7 @@ public class MeetingsListingActivity extends AppCompatActivity {
         mMeetingFrameLayout = findViewById(R.id.frame_layout_meeting);
         mToolbar = findViewById(R.id.top_app_bar);
         mNewMeetingButton = findViewById(R.id.new_meeting_fab);
+        clearFilterButton = findViewById(R.id.clear_filter_meeting_fab);
 
         setSupportActionBar(mToolbar);
         if (mMeetingFrameLayout != null) {
@@ -38,6 +41,15 @@ public class MeetingsListingActivity extends AppCompatActivity {
         }
 
         this.configureAndShowMeetingListFragment();
+
+        hideFilterClear();
+
+        clearFilterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMeetingListFragment.clearFilter();
+            }
+        });
 
         mNewMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,12 +67,20 @@ public class MeetingsListingActivity extends AppCompatActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.setReorderingAllowed(true);
-        MeetingListFragment meetingListFragment = (MeetingListFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
+        mMeetingListFragment = (MeetingListFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
 
-        if (meetingListFragment == null) {
-            meetingListFragment = new MeetingListFragment();
-            transaction.add(R.id.frame_layout_main, meetingListFragment).commit();
+        if (mMeetingListFragment == null) {
+            mMeetingListFragment = new MeetingListFragment();
+            transaction.add(R.id.frame_layout_main, mMeetingListFragment).commit();
         }
+    }
+
+    public void hideFilterClear(){
+        clearFilterButton.hide();
+    }
+
+    public void showFilterClear(){
+        clearFilterButton.show();
     }
 
 }
