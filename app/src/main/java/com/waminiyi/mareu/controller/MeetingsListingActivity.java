@@ -12,15 +12,10 @@ import android.widget.FrameLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.waminiyi.mareu.R;
-import com.waminiyi.mareu.model.MeetingDatabase;
 
 public class MeetingsListingActivity extends AppCompatActivity {
-    private FloatingActionButton mNewMeetingButton;
     private FloatingActionButton clearFilterButton;
-    MeetingListFragment mMeetingListFragment;
-    private MeetingDatabase mMeetingDatabase = MeetingDatabase.getInstance();
-    private Toolbar mToolbar;
-    private FrameLayout mMeetingFrameLayout;
+    private  MeetingListFragment mMeetingListFragment;
 
     public static final int ADD_MEETING_REQUEST = 1;
 
@@ -30,14 +25,14 @@ public class MeetingsListingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meetings_listing);
 
-        mMeetingFrameLayout = findViewById(R.id.frame_layout_meeting);
-        mToolbar = findViewById(R.id.top_app_bar);
-        mNewMeetingButton = findViewById(R.id.new_meeting_fab);
+        FrameLayout meetingFrameLayout = findViewById(R.id.frame_layout_meeting);
+        Toolbar toolbar = findViewById(R.id.top_app_bar);
+        FloatingActionButton newMeetingButton = findViewById(R.id.new_meeting_fab);
         clearFilterButton = findViewById(R.id.clear_filter_meeting_fab);
 
-        setSupportActionBar(mToolbar);
-        if (mMeetingFrameLayout != null) {
-            mMeetingFrameLayout.setVisibility(View.GONE);
+        setSupportActionBar(toolbar);
+        if (meetingFrameLayout != null) {
+            meetingFrameLayout.setVisibility(View.GONE);
         }
 
         this.configureAndShowMeetingListFragment();
@@ -51,7 +46,7 @@ public class MeetingsListingActivity extends AppCompatActivity {
             }
         });
 
-        mNewMeetingButton.setOnClickListener(new View.OnClickListener() {
+        newMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 

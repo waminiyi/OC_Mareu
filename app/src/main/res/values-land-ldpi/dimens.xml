@@ -42,6 +42,6 @@
     <dimen name="textview_minheight">36dp</dimen>
     <dimen name="recyclerview_minheight">100dip</dimen>
     <dimen name="mail_dialog_textview_margin_top">8dip</dimen>
-    <dimen name="mail_dialog_fab_margin_top">-30dip</dimen>
-    <dimen name="mail_dialog_fab_margin_end">-4dip</dimen>
+    <dimen name="mail_dialog_fab_margin_start">12dip</dimen>
+    <dimen name="mail_validation_linear_layout_margin">40dip</dimen>
 </resources>

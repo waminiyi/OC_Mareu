@@ -27,6 +27,11 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
         mMeetingListCopy = new ArrayList<>(meetingList);
     }
 
+    public MeetingRecyclerViewAdapter(List<Meeting> meetingList) {
+        this.mMeetingList = meetingList;
+        mMeetingListCopy = new ArrayList<>(meetingList);
+    }
+
     @NonNull
     @Override
     public MeetingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -55,9 +60,6 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
                     setMeetingsList(MeetingDatabase.getInstance().getMeetingList());
                 }
             });
-        } else {
-
-            holder.roomNameTextView.setText("No Meeting planned");
         }
     }
 
@@ -78,18 +80,22 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
     }
 
     public void filter(String parameter, CharSequence constraint) {
+        setMeetingsList(getFilteredList(parameter,constraint));
+    }
+
+    public List <Meeting> getFilteredList(String parameter, CharSequence constraint){
         List<Meeting> filteredList = new ArrayList<>();
         if (constraint == null || constraint.length() == 0) {
             filteredList.addAll(mMeetingListCopy);
         } else {
             String filterPattern = constraint.toString().toLowerCase().trim();
-            if (parameter.equals(mContext.getString(R.string.room_filter_label))) {
+            if (parameter.equals("roomFilter")) {
                 for (Meeting meeting : mMeetingListCopy) {
                     if (meeting.getMeetingRoom().toLowerCase().contains(filterPattern.trim())) {
                         filteredList.add(meeting);
                     }
                 }
-            } else if (parameter.equals(mContext.getString(R.string.date_filter_label))) {
+            } else if (parameter.equals("dateFilter")) {
                 for (Meeting meeting : mMeetingListCopy) {
                     if (meeting.getMeetingDate().toLowerCase().contains(filterPattern)) {
                         filteredList.add(meeting);
@@ -97,6 +103,7 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
                 }
             }
         }
-        setMeetingsList(filteredList);
+
+        return filteredList;
     }
 }

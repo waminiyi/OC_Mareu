@@ -19,5 +19,6 @@
     <dimen name="mail_dialog_box_height">480dip</dimen>
     <dimen name="mail_dialog_textview_margin_top">8dip</dimen>
     <dimen name="mail_dialog_fab_margin_top">-30dip</dimen>
-    <dimen name="mail_dialog_fab_margin_end">-4dip</dimen>
+    <dimen name="mail_dialog_fab_margin_start">-4dip</dimen>
+    <dimen name="mail_validation_linear_layout_margin">40dip</dimen>
 </resources>

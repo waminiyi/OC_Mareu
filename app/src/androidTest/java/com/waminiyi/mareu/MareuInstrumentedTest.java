@@ -11,27 +11,21 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withResourceName;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.contrib.PickerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.*;
 
 import com.waminiyi.mareu.controller.MeetingsListingActivity;
-import com.waminiyi.mareu.controller.NewMeetingActivity;
 import com.waminiyi.mareu.model.Meeting;
 import com.waminiyi.mareu.model.MeetingDatabase;
 import com.waminiyi.mareu.utils.DeleteViewAction;
@@ -39,12 +33,7 @@ import com.waminiyi.mareu.utils.RecyclerViewItemCountAssertion;
 import com.waminiyi.mareu.utils.RecyclerViewItemFilteringAssertion;
 import com.waminiyi.mareu.utils.StringsUtils;
 
-import tools.fastlane.screengrab.FalconScreenshotStrategy;
 import tools.fastlane.screengrab.Screengrab;
-import tools.fastlane.screengrab.UiAutomatorScreenshotStrategy;
-import tools.fastlane.screengrab.cleanstatusbar.BluetoothState;
-import tools.fastlane.screengrab.cleanstatusbar.CleanStatusBar;
-import tools.fastlane.screengrab.cleanstatusbar.MobileDataType;
 import tools.fastlane.screengrab.locale.LocaleTestRule;
 
 
@@ -67,13 +56,11 @@ public class MareuInstrumentedTest {
         assertThat(mListingActivity, notNullValue());
     }
 
-
     /**
      * We ensure that our recyclerview is displaying all meetings
      */
     @Test
     public void meetingList_shouldNotBeEmpty() {
-
         onView(withId(R.id.recyclerview)).check(new RecyclerViewItemCountAssertion(ITEMS_COUNT));
     }
 
@@ -107,7 +94,6 @@ public class MareuInstrumentedTest {
 
         onView(withId(R.id.recyclerview)).check(new RecyclerViewItemFilteringAssertion("DATE", StringsUtils.formatDate(2022, 04, 24)));
 
-
     }
 
     @Test
@@ -120,7 +106,6 @@ public class MareuInstrumentedTest {
         onView(withText(StringsUtils.getRoomsArray()[0])).perform(click());
 
         onView(withId(R.id.recyclerview)).check(new RecyclerViewItemFilteringAssertion("ROOM", StringsUtils.getRoomsArray()[0]));
-
 
     }
 
@@ -146,7 +131,6 @@ public class MareuInstrumentedTest {
         //adding topic
         onView(withId(R.id.new_meeting_topic_edittext)).check(matches(isDisplayed()));
         onView(withId(R.id.new_meeting_topic_edittext)).perform(typeText(topic));
-
 
         //choosing date (here 2022-12-31)
         onView(withId(R.id.new_meeting_date_textview)).perform(click());

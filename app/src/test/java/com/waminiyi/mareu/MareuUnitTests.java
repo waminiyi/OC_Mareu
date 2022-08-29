@@ -1,16 +1,20 @@
 package com.waminiyi.mareu;
 
+import static androidx.test.espresso.matcher.ViewMatchers.assertThat;
+
 import org.hamcrest.collection.IsIterableContainingInAnyOrder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 import com.waminiyi.mareu.model.Meeting;
 import com.waminiyi.mareu.model.MeetingDatabase;
 import com.waminiyi.mareu.utils.StringsUtils;
+import com.waminiyi.mareu.view.MeetingRecyclerViewAdapter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -61,7 +65,6 @@ public class MareuUnitTests {
 
     }
 
-
     /**
      * Testing if meeting deletion is working fine
      */
@@ -72,6 +75,24 @@ public class MareuUnitTests {
         database.deleteMeeting(meetingToDelete);
         assertFalse(database.getMeetingList().contains(meetingToDelete));
         database.addMeeting(meetingToDelete);
+    }
+
+    @Test
+    public void filterMeetingsByDateWithSuccess() {
+        List<Meeting> mMeetingInitialList = database.getMeetingList();
+
+        MeetingRecyclerViewAdapter mAdapter = new MeetingRecyclerViewAdapter( mMeetingInitialList);
+
+        assertEquals(10, mAdapter.getItemCount());
+
+        String meetingDate = StringsUtils.formatDate(2022, 2, 22);
+
+        List<Meeting> mMeetingfilteredList = mAdapter.getFilteredList("dateFilter",meetingDate);
+
+        for (int i = 0; i < mMeetingfilteredList.size(); i++) {
+            Meeting meeting = mMeetingfilteredList.get(i);
+            assertThat(meeting.getMeetingDate(), is(meetingDate));
+        }
     }
 
 }
