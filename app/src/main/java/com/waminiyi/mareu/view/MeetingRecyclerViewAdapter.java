@@ -18,18 +18,11 @@ import java.util.List;
 public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingViewHolder> {
 
     private List<Meeting> mMeetingList;
-    private List<Meeting> mMeetingListCopy;
     private Context mContext;
 
     public MeetingRecyclerViewAdapter(Context context, List<Meeting> meetingList) {
         this.mMeetingList = meetingList;
         this.mContext = context;
-        mMeetingListCopy = new ArrayList<>(meetingList);
-    }
-
-    public MeetingRecyclerViewAdapter(List<Meeting> meetingList) {
-        this.mMeetingList = meetingList;
-        mMeetingListCopy = new ArrayList<>(meetingList);
     }
 
     @NonNull

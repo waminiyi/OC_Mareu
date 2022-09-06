@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -20,7 +21,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.waminiyi.mareu.R;
 import com.waminiyi.mareu.model.Meeting;
 import com.waminiyi.mareu.model.MeetingDatabase;
@@ -47,6 +50,9 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     private int mLayoutMode;
     private FrameLayout mFrameLayout;
     private MeetingsListingActivity mMeetingsListingActivity;
+    private FloatingActionButton clearFilterButton;
+    private LinearLayout placeHolderLayout;
+
 
     public MeetingListFragment() {
     }
@@ -67,12 +73,23 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
 
         View view = inflater.inflate(R.layout.fragment_meeting_list, container, false);
         mContext = view.getContext();
-        mMeetingsListingActivity=(MeetingsListingActivity)getActivity();
+        mMeetingsListingActivity = (MeetingsListingActivity) getActivity();
         mRecyclerView = view.findViewById(R.id.recyclerview);
+        clearFilterButton = view.findViewById(R.id.clear_filter_meeting_fab);
+        placeHolderLayout = view.findViewById(R.id.holder_layout);
+
+        placeHolderLayout.setVisibility(View.GONE);
 
         if (mLayoutMode == 2) {
             mFrameLayout = getActivity().findViewById(R.id.frame_layout_meeting);
         }
+
+        clearFilterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearFilter();
+            }
+        });
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         return view;
@@ -81,6 +98,7 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.main_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -110,6 +128,22 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
         mAdapter = new MeetingRecyclerViewAdapter(this.getContext(), mMeetingList);
         mRecyclerView.setAdapter(mAdapter);
 
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                if (mMeetingList.isEmpty()) {
+                    mRecyclerView.setVisibility(View.GONE);
+                    placeHolderLayout.setVisibility(View.VISIBLE);
+                }
+                else {
+                    mRecyclerView.setVisibility(View.VISIBLE);
+                    placeHolderLayout.setVisibility(View.GONE);
+                }
+            }
+        });
+
+
         ItemClickSupport.addTo(mRecyclerView, R.layout.meeting_item)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
@@ -120,10 +154,7 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
                             mFrameLayout.setVisibility(View.VISIBLE);
                             configureAndShowMeetingDetailsFragmentInTabLandMode(meeting);
                         } else {
-                            Intent intent = new Intent(getContext(), NewMeetingActivity.class);
-                            intent.putExtra(NewMeetingActivity.EXTRA_MEETING, meeting);
-                            intent.putExtra(NewMeetingActivity.MEETING_MODE, VIEW_MEETING_REQUEST);
-                            startActivity(intent);
+                            configureAndShowMeetingDetailsFragment(meeting);
                         }
                     }
                 });
@@ -133,8 +164,9 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     public void onResume() {
         super.onResume();
         configureRecyclerView();
-        mMeetingsListingActivity.hideFilterClear();
+        clearFilterButton.hide();
     }
+
 
     public void showDatePickerDialog() {
         DatePickerFragment datePickerFragment = new DatePickerFragment(this, false);
@@ -149,23 +181,24 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
 
     private void filterByDate() {
         mAdapter.setMeetingsList(mMeetingDatabase.getMeetingListFilteredByDate(mDateFilter));
-        mMeetingsListingActivity.showFilterClear();
+        clearFilterButton.show();
     }
 
     public void clearFilter() {
         mAdapter.setMeetingsList(mMeetingList);
-        mMeetingsListingActivity.hideFilterClear();
+        clearFilterButton.hide();
     }
 
     public void filterByRoom() {
         mAdapter.setMeetingsList(mMeetingDatabase.getMeetingListFilteredByRoom(mRoomFilter));
-        mMeetingsListingActivity.showFilterClear();
+        clearFilterButton.show();
     }
 
     private void configureAndShowMeetingDetailsFragmentInTabLandMode(Meeting meeting) {
 
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+
         transaction.setReorderingAllowed(true);
         MeetingDetailsFragment meetingDetailsFragment = MeetingDetailsFragment.newInstance(meeting);
         transaction.replace(R.id.frame_layout_meeting, meetingDetailsFragment);
@@ -173,10 +206,22 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     }
 
 
+    private void configureAndShowMeetingDetailsFragment(Meeting meeting) {
+
+        FragmentManager fragmentManager = getParentFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.setReorderingAllowed(true);
+        MeetingDetailsFragment meetingDetailsFragment = MeetingDetailsFragment.newInstance(meeting);
+
+        transaction.add(R.id.frame_layout_main, meetingDetailsFragment).commit();
+
+        mMeetingsListingActivity.hideNewMeetingFab();
+    }
 
     public void setRoomFilter(String roomFilter) {
         mRoomFilter = roomFilter;
     }
+
 }
 
 

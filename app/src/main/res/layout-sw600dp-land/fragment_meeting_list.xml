@@ -13,4 +13,39 @@
         tools:context=".controller.MeetingListFragment"
         tools:listitem="@layout/meeting_item" />
 
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/clear_filter_meeting_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|bottom"
+        android:layout_marginBottom="@dimen/fab_margin_bottom"
+        android:layout_marginStart="@dimen/fab_margin_end"
+        app:backgroundTint="@color/purple_500"
+        app:srcCompat="@drawable/ic_filter_off"
+        app:tint="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/holder_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/placeholder_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_work_off" />
+
+        <TextView
+            android:id="@+id/empty_list_placeholder_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Il n'y a aucune réunion prévue actuellement"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

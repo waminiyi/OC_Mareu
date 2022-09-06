@@ -30,10 +30,6 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".controller.NewMeetingActivity"
-            android:exported="false"
-            android:parentActivityName=".controller.MeetingsListingActivity" />
-        <activity
             android:name=".controller.MeetingsListingActivity"
             android:exported="true"
             android:theme="@style/AppTheme">

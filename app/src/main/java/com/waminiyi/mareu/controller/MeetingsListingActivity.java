@@ -14,8 +14,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.waminiyi.mareu.R;
 
 public class MeetingsListingActivity extends AppCompatActivity {
-    private FloatingActionButton clearFilterButton;
+
     private  MeetingListFragment mMeetingListFragment;
+    private FloatingActionButton newMeetingButton;
 
     public static final int ADD_MEETING_REQUEST = 1;
 
@@ -27,8 +28,7 @@ public class MeetingsListingActivity extends AppCompatActivity {
 
         FrameLayout meetingFrameLayout = findViewById(R.id.frame_layout_meeting);
         Toolbar toolbar = findViewById(R.id.top_app_bar);
-        FloatingActionButton newMeetingButton = findViewById(R.id.new_meeting_fab);
-        clearFilterButton = findViewById(R.id.clear_filter_meeting_fab);
+        newMeetingButton = findViewById(R.id.new_meeting_fab);
 
         setSupportActionBar(toolbar);
         if (meetingFrameLayout != null) {
@@ -37,22 +37,11 @@ public class MeetingsListingActivity extends AppCompatActivity {
 
         this.configureAndShowMeetingListFragment();
 
-        hideFilterClear();
-
-        clearFilterButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mMeetingListFragment.clearFilter();
-            }
-        });
 
         newMeetingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = new Intent(MeetingsListingActivity.this, NewMeetingActivity.class);
-                intent.putExtra(NewMeetingActivity.MEETING_MODE, ADD_MEETING_REQUEST);
-                startActivity(intent);
+                configureAndShowNewMeetingFragment();
             }
         });
     }
@@ -61,7 +50,9 @@ public class MeetingsListingActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+
         transaction.setReorderingAllowed(true);
+
         mMeetingListFragment = (MeetingListFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_main);
 
         if (mMeetingListFragment == null) {
@@ -70,12 +61,21 @@ public class MeetingsListingActivity extends AppCompatActivity {
         }
     }
 
-    public void hideFilterClear(){
-        clearFilterButton.hide();
+
+    private void configureAndShowNewMeetingFragment() {
+        NewMeetingFragment newMeetingFragment = new NewMeetingFragment();
+
+        newMeetingButton.hide();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_main, newMeetingFragment).commit();
     }
 
-    public void showFilterClear(){
-        clearFilterButton.show();
+
+    public void hideNewMeetingFab(){
+        newMeetingButton.hide();
+    }
+
+    public void showNewMeetingFab(){
+        newMeetingButton.show();
     }
 
 }

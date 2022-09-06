@@ -10,10 +10,15 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -49,7 +54,6 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     private MeetingDatabase mMeetingDatabase;
     private RecyclerView mMailRecyclerView;
     public AttendeesListAdapter mMailAdapter;
-    private MaterialToolbar mTopAppBar;
     private Context mContext;
     private List<MailModel> sMailsModelList;
 
@@ -59,6 +63,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     private TextView mNewMeetingRoomTextview;
     private TextView mNewMeetingAttendeesAddingTextview;
     private FloatingActionButton mMeetingSavingButton;
+    private MeetingsListingActivity mMeetingsListingActivity;
 
     public NewMeetingFragment() {
     }
@@ -66,6 +71,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         mMeetingDatabase = MeetingDatabase.getInstance();
         mMeetingRoomsList = StringsUtils.getMeetingRoomsList(this.getContext());
@@ -86,7 +92,7 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         mNewMeetingAttendeesAddingTextview = view.findViewById(R.id.new_meeting_attendees_adding_textview);
         mMeetingSavingButton = view.findViewById(R.id.new_meeting_save_button);
         mMailRecyclerView = view.findViewById(R.id.new_meeting_attendees_mail_recyclerview);
-        mTopAppBar = view.findViewById(R.id.new_meeting_top_app_bar);
+        mMeetingsListingActivity = (MeetingsListingActivity) getActivity();
 
         return view;
     }
@@ -97,16 +103,28 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         this.configureRecyclerView();
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        menu.clear();
+        inflater.inflate(R.menu.fragment_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == R.id.close_fragment) {
+            configureAndShowMeetingListFragment();
+            mMeetingsListingActivity.showNewMeetingFab();
+        }
+        return true;
+
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        mTopAppBar.inflateMenu(R.menu.fragment_menu);
-        mTopAppBar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.close_fragment) {
-                getActivity().finish();
-            }
-            return false;
-        });
 
         mNewMeetingDateTextview.setOnClickListener(this);
         mNewMeetingTimeTextview.setOnClickListener(this);
@@ -188,7 +206,9 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
         meeting.setColorIndexFrom(rooms);
         mMeetingDatabase.addMeeting(meeting);
 
-        getActivity().finish();
+        configureAndShowMeetingListFragment();
+        mMeetingsListingActivity.showNewMeetingFab();
+
     }
 
     private boolean isTextValid(String text) {
@@ -230,4 +250,13 @@ public class NewMeetingFragment extends Fragment implements View.OnClickListener
     public List<MailModel> getMailsModelList() {
         return sMailsModelList;
     }
+
+    private void configureAndShowMeetingListFragment() {
+
+        MeetingListFragment mMeetingListFragment = new MeetingListFragment();
+
+        getParentFragmentManager().beginTransaction().replace(R.id.frame_layout_main, mMeetingListFragment).commit();
+
+    }
+
 }
