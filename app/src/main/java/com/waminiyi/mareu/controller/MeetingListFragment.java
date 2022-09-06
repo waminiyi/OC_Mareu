@@ -118,7 +118,7 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
 
                         if (mFrameLayout != null) {
                             mFrameLayout.setVisibility(View.VISIBLE);
-                            configureAndShowMeetingDetailsFragment(meeting);
+                            configureAndShowMeetingDetailsFragmentInTabLandMode(meeting);
                         } else {
                             Intent intent = new Intent(getContext(), NewMeetingActivity.class);
                             intent.putExtra(NewMeetingActivity.EXTRA_MEETING, meeting);
@@ -148,8 +148,7 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     }
 
     private void filterByDate() {
-        String filterParameter = getResources().getString(R.string.date_filter_label);
-        mAdapter.filter(filterParameter, mDateFilter);
+        mAdapter.setMeetingsList(mMeetingDatabase.getMeetingListFilteredByDate(mDateFilter));
         mMeetingsListingActivity.showFilterClear();
     }
 
@@ -159,12 +158,11 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
     }
 
     public void filterByRoom() {
-        String filterParameter = getResources().getString(R.string.room_filter_label);
-        mAdapter.filter(filterParameter, mRoomFilter);
+        mAdapter.setMeetingsList(mMeetingDatabase.getMeetingListFilteredByRoom(mRoomFilter));
         mMeetingsListingActivity.showFilterClear();
     }
 
-    private void configureAndShowMeetingDetailsFragment(Meeting meeting) {
+    private void configureAndShowMeetingDetailsFragmentInTabLandMode(Meeting meeting) {
 
         FragmentManager fragmentManager = getParentFragmentManager();
         FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -173,6 +171,8 @@ public class MeetingListFragment extends Fragment implements DatePickerDialog.On
         transaction.replace(R.id.frame_layout_meeting, meetingDetailsFragment);
         transaction.commitNow();
     }
+
+
 
     public void setRoomFilter(String roomFilter) {
         mRoomFilter = roomFilter;

@@ -37,8 +37,7 @@ public class MareuUnitTests {
     @Test
     public void getMeetingsWithSuccess() {
         List<Meeting> meetings = database.getMeetingList();
-        List<Meeting> expectedMeetings = MeetingDatabase.MEETING_EXAMPLES;
-        assertThat(meetings, IsIterableContainingInAnyOrder.containsInAnyOrder(expectedMeetings.toArray()));
+        assertEquals(10, meetings.size());
     }
 
     /**
@@ -81,17 +80,31 @@ public class MareuUnitTests {
     public void filterMeetingsByDateWithSuccess() {
         List<Meeting> mMeetingInitialList = database.getMeetingList();
 
-        MeetingRecyclerViewAdapter mAdapter = new MeetingRecyclerViewAdapter( mMeetingInitialList);
-
-        assertEquals(10, mAdapter.getItemCount());
+        assertEquals(10, mMeetingInitialList.size());
 
         String meetingDate = StringsUtils.formatDate(2022, 2, 22);
 
-        List<Meeting> mMeetingfilteredList = mAdapter.getFilteredList("dateFilter",meetingDate);
+        List<Meeting> meetingfilteredList = database.getMeetingListFilteredByDate(meetingDate);
 
-        for (int i = 0; i < mMeetingfilteredList.size(); i++) {
-            Meeting meeting = mMeetingfilteredList.get(i);
+        for (int i = 0; i < meetingfilteredList.size(); i++) {
+            Meeting meeting = meetingfilteredList.get(i);
             assertThat(meeting.getMeetingDate(), is(meetingDate));
+        }
+    }
+
+    @Test
+    public void filterMeetingsByRoomWithSuccess() {
+        List<Meeting> mMeetingInitialList = database.getMeetingList();
+
+        assertEquals(10, mMeetingInitialList.size());
+
+        String meetingRoom = StringsUtils.getRoomsArray()[0];
+
+        List<Meeting> meetingfilteredList = database.getMeetingListFilteredByRoom(meetingRoom);
+
+        for (int i = 0; i < meetingfilteredList.size(); i++) {
+            Meeting meeting = meetingfilteredList.get(i);
+            assertThat(meeting.getMeetingRoom(), is(meetingRoom));
         }
     }
 

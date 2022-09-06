@@ -11,15 +11,13 @@ public class MeetingDatabase {
 
     private static MeetingDatabase INSTANCE;
     private final List<Meeting> mMeetingList = new ArrayList<>();
-    public static List<Meeting> MEETING_EXAMPLES = generateMeetingsExamples();
 
 
     public MeetingDatabase() {
-        mMeetingList.addAll(MEETING_EXAMPLES);
-
+        mMeetingList.addAll(generateMeetingsExamples());
     }
 
-    public static List<Meeting> generateMeetingsExamples() {
+    public List<Meeting> generateMeetingsExamples() {
         List<Meeting> meetingExamples = new ArrayList<>();
         String[] rooms = StringsUtils.getRoomsArray();
         for (int i = 0; i < 10; i++) {
@@ -59,5 +57,42 @@ public class MeetingDatabase {
 
     public void addMeeting(Meeting meeting) {
         mMeetingList.add(meeting);
+    }
+
+    public Meeting getMeetingAt(int position) {
+        return mMeetingList.get(position);
+    }
+
+    public List<Meeting> getMeetingListFilteredByDate(CharSequence constraint) {
+        List<Meeting> filteredList;
+        if (constraint == null || constraint.length() == 0) {
+            filteredList = mMeetingList;
+        } else {
+            filteredList = new ArrayList<>();
+            String filterPattern = constraint.toString().toLowerCase().trim();
+            for (Meeting meeting : mMeetingList) {
+                if (meeting.getMeetingDate().toLowerCase().contains(filterPattern)) {
+                    filteredList.add(meeting);
+                }
+            }
+        }
+        return filteredList;
+    }
+
+    public List<Meeting> getMeetingListFilteredByRoom(CharSequence constraint) {
+
+        List<Meeting> filteredList;
+        if (constraint == null || constraint.length() == 0) {
+            filteredList = mMeetingList;
+        } else {
+            filteredList = new ArrayList<>();
+            String filterPattern = constraint.toString().toLowerCase().trim();
+            for (Meeting meeting : mMeetingList) {
+                if (meeting.getMeetingRoom().toLowerCase().contains(filterPattern)) {
+                    filteredList.add(meeting);
+                }
+            }
+        }
+        return filteredList;
     }
 }

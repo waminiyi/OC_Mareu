@@ -23,7 +23,7 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
 
     public MeetingRecyclerViewAdapter(Context context, List<Meeting> meetingList) {
         this.mMeetingList = meetingList;
-        this.mContext=context;
+        this.mContext = context;
         mMeetingListCopy = new ArrayList<>(meetingList);
     }
 
@@ -79,31 +79,4 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingView
         return mMeetingList.get(position);
     }
 
-    public void filter(String parameter, CharSequence constraint) {
-        setMeetingsList(getFilteredList(parameter,constraint));
-    }
-
-    public List <Meeting> getFilteredList(String parameter, CharSequence constraint){
-        List<Meeting> filteredList = new ArrayList<>();
-        if (constraint == null || constraint.length() == 0) {
-            filteredList.addAll(mMeetingListCopy);
-        } else {
-            String filterPattern = constraint.toString().toLowerCase().trim();
-            if (parameter.equals("roomFilter")) {
-                for (Meeting meeting : mMeetingListCopy) {
-                    if (meeting.getMeetingRoom().toLowerCase().contains(filterPattern.trim())) {
-                        filteredList.add(meeting);
-                    }
-                }
-            } else if (parameter.equals("dateFilter")) {
-                for (Meeting meeting : mMeetingListCopy) {
-                    if (meeting.getMeetingDate().toLowerCase().contains(filterPattern)) {
-                        filteredList.add(meeting);
-                    }
-                }
-            }
-        }
-
-        return filteredList;
-    }
 }
